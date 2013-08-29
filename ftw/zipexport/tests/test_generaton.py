@@ -4,7 +4,9 @@ from ftw.zipexport.testing import FTW_ZIPEXPORT_INTEGRATION_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from unittest2 import TestCase
-from zope.component import getAdapter, getMultiAdapter
+from zope.component import getMultiAdapter
+from ftw.zipexport.generation import ZipGenerator
+import os
 
 
 class TestZipGeneration(TestCase):
@@ -37,8 +39,12 @@ class TestZipGeneration(TestCase):
                                     .within(subfolder))
 
     def test_zip_is_not_empty(self):
-        #TODO
         ziprepresentation = getMultiAdapter((self.folder, self.request),
                                             interface=IZipRepresentation)
-        with getAdapter(ziprepresentation) as zipgenerator:
-            zipgenerator.get_zip()
+        with ZipGenerator() as zipgenerator:
+            for file_path, file_pointer in ziprepresentation.get_files():
+                zipgenerator.add_file(file_path, file_pointer)
+            generated_zip_pointer = zipgenerator.generate()
+            if (not hasattr(generated_zip_pointer, "name")
+            or (os.stat(generated_zip_pointer.name).st_size == 0)):
+                raise AssertionError()

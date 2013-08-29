@@ -12,16 +12,3 @@ class IZipRepresentation(Interface):
         file should show up in the zip. Second the data as eather a file or
         a stream.
         """
-
-
-class IZipGenerator(Interface):
-    """ Generates a zip based on the data received from IZipRepresentation. """
-
-    def get_zip():
-        """
-        Returns a filepointer to the generated zip.
-        Have to be used as a context manager as the enter and exit functions
-        handle the temporary file.
-        If large or many files are selected this function might take some time
-        to execute.
-        """

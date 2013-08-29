@@ -9,7 +9,7 @@ tests_require = [
     'ftw.builder',
     'plone.app.testing'
     ]
-    
+
 extras_require = {
     'tests': tests_require,
     }
@@ -47,7 +47,7 @@ setup(name='ftw.zipexport',
       zip_safe=False,
 
       install_requires=[
-        'Plone',
+        'Products.CMFCore',
         'setuptools',
         # -*- Extra requirements: -*-
         ],
