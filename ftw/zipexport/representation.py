@@ -4,7 +4,6 @@ from zope.component import adapts
 from zope.component import getMultiAdapter
 from zope.interface import implements
 from zope.interface import Interface
-from plone.dexterity.interfaces import IDexterityItem
 from Products.ATContentTypes.interfaces.file import IFileContent
 
 

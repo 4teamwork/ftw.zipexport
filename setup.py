@@ -14,10 +14,6 @@ extras_require = {
     'tests': tests_require,
     }
 
-import sys
-if sys.version_info < (2, 7, 4):
-    raise Exception("Zipexport requires at least python 2.7.4.")
-
 setup(name='ftw.zipexport',
       version=version,
       description="Zip export for Plone",
