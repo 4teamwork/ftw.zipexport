@@ -1,7 +1,8 @@
+from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ftw.zipexport.interfaces import IZipRepresentation
 from Products.CMFCore.interfaces import IFolderish
 from zope.component import adapts
-from zope.component import getMultiAdapter
+from zope.component import getMultiAdapter, getAdapter
 from zope.interface import implements
 from zope.interface import Interface
 from Products.ATContentTypes.interfaces.file import IFileContent
@@ -50,3 +51,20 @@ class FileZipRepresentation(NullZipRepresentation):
     def get_files(self, path_prefix="", recursive=True, toplevel=True):
         yield (path_prefix + "/" + self.context.getFile().getFilename(),
                 self.context.getFile().getBlob().open())
+
+
+class DexterityItemZipRepresentation(NullZipRepresentation):
+    implements(IZipRepresentation)
+    adapts(IDexterityItem, Interface)
+
+    def get_files(self, path_prefix="", recursive=True, toplevel=True):
+        try:
+            primary_adapter = getAdapter(self.context,
+                                         interface=IPrimaryFieldInfo)
+        except TypeError:
+            # if no primary field is available PrimaryFieldInfo Adapter throws TypeError
+            # TODO provide status message
+            raise StopIteration
+
+        namedblob = primary_adapter.value
+        yield (path_prefix+"/"+namedblob.filename, namedblob.open())

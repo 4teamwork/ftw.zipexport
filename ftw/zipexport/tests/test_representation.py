@@ -7,7 +7,7 @@ from plone.app.testing import setRoles
 from zope.component import getMultiAdapter
 
 
-class TestZipRepresentation(TestCase):
+class TestArchetypeZipRepresentation(TestCase):
 
     layer = FTW_ZIPEXPORT_INTEGRATION_TESTING
 
@@ -55,4 +55,5 @@ class TestZipRepresentation(TestCase):
                                             interface=IZipRepresentation)
         files = list(ziprepresentation.get_files())
         files_converted = [(path, stream.read()) for path, stream in files]
-        self.assertEquals([("/test.txt", "Testdata file in folder")], files_converted)
+        self.assertEquals([("/test.txt", "Testdata file in folder")],
+                            files_converted)

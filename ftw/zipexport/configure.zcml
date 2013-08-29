@@ -10,6 +10,7 @@
 	<adapter factory=".representation.NullZipRepresentation" />
 	<adapter factory=".representation.FolderZipRepresentation" />
 	<adapter factory=".representation.FileZipRepresentation" />
+	<adapter factory=".representation.DexterityItemZipRepresentation" />
 
 	<browser:page
 		for="*"
