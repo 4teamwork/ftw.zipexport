@@ -1,6 +1,7 @@
 from Products.Five.browser import BrowserView
 from ftw.zipexport.interfaces import IZipRepresentation
-from zope.component import getAdapter, getMultiAdapter
+from ftw.zipexport.generation import ZipGenerator
+from zope.component import getMultiAdapter
 import os
 from ZPublisher.Iterators import filestream_iterator
 
@@ -14,12 +15,16 @@ class ZipExportView(BrowserView):
         response = self.request.response
         repre = getMultiAdapter((self.context, self.request),
                                 interface=IZipRepresentation)
-        with getAdapter(repre) as generator:
-            zip = generator.get_zip()
+        
+        with ZipGenerator() as generator:
+            for path, pointer in repre.get_files():
+                generator.add_file(path, pointer)
+
+            zip_file = generator.generate()
             filename = '%s.zip' % self.context.title
             response.setHeader("Content-Disposition",
                                  'inline; filename="%s"' % filename)
             response.setHeader("Content-type", "application/zip")
-            response.setHeader("Content-Length", os.stat(zip.name).st_size)
+            response.setHeader("Content-Length", os.stat(zip_file.name).st_size)
 
-            return filestream_iterator(zip.name, 'rb')
+            return filestream_iterator(zip_file.name, 'rb')
