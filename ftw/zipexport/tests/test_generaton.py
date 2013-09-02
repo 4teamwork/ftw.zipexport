@@ -42,8 +42,13 @@ class TestZipGeneration(TestCase):
         ziprepresentation = getMultiAdapter((self.folder, self.request),
                                             interface=IZipRepresentation)
         with ZipGenerator() as zipgenerator:
+            self.assertTrue(zipgenerator.is_empty)
+
             for file_path, file_pointer in ziprepresentation.get_files():
                 zipgenerator.add_file(file_path, file_pointer)
+
+            self.assertFalse(zipgenerator.is_empty)
+
             generated_zip_pointer = zipgenerator.generate()
             if (not hasattr(generated_zip_pointer, "name")
             or (os.stat(generated_zip_pointer.name).st_size == 0)):

@@ -20,7 +20,7 @@ class INoteSchemaPrimary(form.Schema):
     form.primary('blob')
     blob = field.NamedBlobFile(
         title=u'afile',
-        required=True,
+        required=False,
         )
 
 alsoProvides(INoteSchemaPrimary, IDexterityItem)
@@ -72,6 +72,8 @@ class TestDexterityZipRepresentation(TestCase):
                             .having(blob=NamedBlobFile(data='NoteNoteNote',
                                                         filename=u'note.txt')))
 
+        self.note_whithout_blob = create(Builder("note"))
+
         self.invitation = create(Builder("invitation")
                             .with_constraints())
 
@@ -88,3 +90,10 @@ class TestDexterityZipRepresentation(TestCase):
         files = list(ziprepresentation.get_files())
         files_converted = [(path, stream.read()) for path, stream in files]
         self.assertEquals([("/note.txt", "NoteNoteNote")], files_converted)
+
+    def test_item_gets_omittet_if_no_underlying_file_found(self):
+        ziprepresentation = getMultiAdapter((self.note_without_blob, self.request),
+                                            interface=IZipRepresentation)
+        files = list(ziprepresentation.get_files())
+        files_converted = [(path, stream.read()) for path, stream in files]
+        self.assertEquals([], files_converted)

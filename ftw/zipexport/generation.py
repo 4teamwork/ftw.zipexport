@@ -22,6 +22,10 @@ class ZipGenerator(object):
     def add_file(self, file_path, file_pointer):
         self.file_tuples.append((file_path, file_pointer))
 
+    @property
+    def is_empty(self):
+        return not self.file_tuples
+
     def generate(self):
         if self.tmp_zip_file is None:
             raise("Please use ZipGenerator as a context manager.")

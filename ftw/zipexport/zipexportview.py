@@ -4,6 +4,7 @@ from ftw.zipexport.generation import ZipGenerator
 from zope.component import getMultiAdapter
 import os
 from ZPublisher.Iterators import filestream_iterator
+from Products.statusmessages.interfaces import IStatusMessage
 
 
 class ZipExportView(BrowserView):
@@ -15,10 +16,17 @@ class ZipExportView(BrowserView):
         response = self.request.response
         repre = getMultiAdapter((self.context, self.request),
                                 interface=IZipRepresentation)
-        
+
         with ZipGenerator() as generator:
             for path, pointer in repre.get_files():
                 generator.add_file(path, pointer)
+
+            # check if zip has files
+            if generator.is_empty:
+                messages = IStatusMessage(self.request)
+                messages.add(u"Zip export is not supported on the selected content.", type=u"error")
+                self.request.response.redirect(self.context.absolute_url())
+                return
 
             zip_file = generator.generate()
             filename = '%s.zip' % self.context.title
