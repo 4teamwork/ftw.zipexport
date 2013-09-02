@@ -26,19 +26,22 @@ class INoteSchemaPrimary(form.Schema):
 alsoProvides(INoteSchemaPrimary, IDexterityItem)
 
 
-class INoteSchemaNonPrimary(form.Schema):
-    blob = field.NamedBlobFile(
-        title=u'afile',
-        required=True,
-        )
+class IInvitationSchemaNonPrimary(form.Schema):
+    pass
 
-alsoProvides(INoteSchemaNonPrimary, IDexterityItem)
+alsoProvides(IInvitationSchemaNonPrimary, IDexterityItem)
 
 
 class NoteBuilder(DexterityBuilder):
     portal_type = 'note'
 
 registry.builder_registry.register('note', NoteBuilder)
+
+
+class InvitationBuilder(DexterityBuilder):
+    portal_type = 'invitation'
+
+registry.builder_registry.register('invitation', InvitationBuilder)
 
 
 class TestDexterityZipRepresentation(TestCase):
@@ -52,36 +55,34 @@ class TestDexterityZipRepresentation(TestCase):
         self.request = self.portal.REQUEST
 
         # fti
-        self.fti = DexterityFTI('note')
-        self.fti.schema = 'ftw.zipexport.tests.test_representation.INoteSchemaNonPrimary'
-        self.portal.portal_types._setObject('note', self.fti)
+        self.fti_note = DexterityFTI('note')
+        self.fti_note.schema = 'ftw.zipexport.tests.test_representation.INoteSchemaPrimary'
+        self.portal.portal_types._setObject('note', self.fti_note)
+
+        self.fti_invi = DexterityFTI('invitation')
+        self.fti_invi.schema = 'fti.zipexport.tests.test_representation.IInvitationSchemaNonPrimary'
+        self.portal.portal_types._setObject('invitation', self.fti_invi)
 
         # register
-        register(self.fti)
-
-    def test_dexterity_item_gets_omittet_if_no_primary_field_set(self):
+        register(self.fti_note)
+        register(self.fti_invi)
 
         # create objects
         self.note = create(Builder("note")
-                            .with_constraints()
                             .having(blob=NamedBlobFile(data='NoteNoteNote',
                                                         filename=u'note.txt')))
 
-        ziprepresentation = getMultiAdapter((self.note, self.request),
+        self.invitation = create(Builder("invitation")
+                            .with_constraints())
+
+    def test_dexterity_item_gets_omittet_if_no_primary_field_set(self):
+        ziprepresentation = getMultiAdapter((self.invitation, self.request),
                                             interface=IZipRepresentation)
         files = list(ziprepresentation.get_files())
         files_converted = [(path, stream.read()) for path, stream in files]
         self.assertEquals([], files_converted)
 
     def test_dexterity_item_gets_added_in_representation(self):
-        self.portal.portal_types.get('note').schema = 'ftw.zipexport.tests.test_representation.INoteSchemaPrimary'
-
-        # create objects
-        self.note = create(Builder("note")
-                            .with_constraints()
-                            .having(blob=NamedBlobFile(data='NoteNoteNote',
-                                                        filename=u'note.txt')))
-
         ziprepresentation = getMultiAdapter((self.note, self.request),
                                             interface=IZipRepresentation)
         files = list(ziprepresentation.get_files())
