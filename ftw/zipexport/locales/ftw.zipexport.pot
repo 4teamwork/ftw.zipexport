@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-09-03 07:36+0000\n"
+"POT-Creation-Date: 2013-09-03 14:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,8 +25,12 @@ msgstr ""
 msgid "Export data from plone into a zip archive."
 msgstr ""
 
+#: ./ftw/zipexport/profiles/default/actions.xml
+msgid "Export selected as Zip"
+msgstr ""
+
 #. Default: "Zip export is not supported on the selected content."
-#: ./ftw/zipexport/zipexportview.py:28
+#: ./ftw/zipexport/zipexportview.py:39
 msgid "statmsg_content_not_supported"
 msgstr ""
 
