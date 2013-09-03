@@ -5,6 +5,7 @@ from zope.component import getMultiAdapter
 import os
 from ZPublisher.Iterators import filestream_iterator
 from Products.statusmessages.interfaces import IStatusMessage
+from ftw.zipexport import _
 
 
 class ZipExportView(BrowserView):
@@ -24,7 +25,7 @@ class ZipExportView(BrowserView):
             # check if zip has files
             if generator.is_empty:
                 messages = IStatusMessage(self.request)
-                messages.add(u"Zip export is not supported on the selected content.", type=u"error")
+                messages.add(_("statmsg_content_not_supported", default=u"Zip export is not supported on the selected content."), type=u"error")
                 self.request.response.redirect(self.context.absolute_url())
                 return
 

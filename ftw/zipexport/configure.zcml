@@ -7,6 +7,8 @@
 	xmlns:zcml="http://namespaces.zope.org/zcml"
 	i18n_domain="ftw.zipexport">
 	
+	<i18n:registerTranslations directory="locales" />
+	
 	<adapter factory=".representation.NullZipRepresentation" />
 	<adapter factory=".representation.FolderZipRepresentation" />
 	<adapter factory=".representation.FileZipRepresentation" />
@@ -14,7 +16,7 @@
 
 	<browser:page
 		for="*"
-		name="export_zip"
+		name="zip_export"
 		class=".zipexportview.ZipExportView"
 		permission="zope2.View"
 		/>
