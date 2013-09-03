@@ -1,4 +1,5 @@
 from plone.namedfile.interfaces import INamedBlobFileField
+from plone.dexterity.interfaces import IDexterityItem
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from ftw.zipexport.interfaces import IZipRepresentation
 from Products.CMFCore.interfaces import IFolderish
@@ -70,4 +71,4 @@ class DexterityItemZipRepresentation(NullZipRepresentation):
         if INamedBlobFileField.providedBy(primary_adapter.field):
             if primary_adapter.value:
                 namedblob = primary_adapter.value
-                yield (path_prefix+"/"+namedblob.filename, namedblob.open())
+                yield (path_prefix + "/" + namedblob.filename, namedblob.open())
