@@ -6,21 +6,32 @@ import os
 from ZPublisher.Iterators import filestream_iterator
 from Products.statusmessages.interfaces import IStatusMessage
 from ftw.zipexport import _
+from zope.app.component.hooks import getSite
 
 
-class ZipExportView(BrowserView):
+class ZipSelectedExportView(BrowserView):
 
     def __init__(self, *args, **kwargs):
-        super(ZipExportView, self).__init__(*args, **kwargs)
+        super(ZipSelectedExportView, self).__init__(*args, **kwargs)
 
     def __call__(self):
+        portal = getSite()
+        paths = self.request.get('paths', [])
+        objects = [portal.restrictedTraverse(path) for path in paths]
+
+        return self.zip_selected(objects)
+
+    def zip_selected(self, objects):
         response = self.request.response
-        repre = getMultiAdapter((self.context, self.request),
-                                interface=IZipRepresentation)
 
         with ZipGenerator() as generator:
-            for path, pointer in repre.get_files():
-                generator.add_file(path, pointer)
+
+            for obj in objects:
+                repre = getMultiAdapter((obj, self.request),
+                                        interface=IZipRepresentation)
+
+                for path, pointer in repre.get_files():
+                    generator.add_file(path, pointer)
 
             # check if zip has files
             if generator.is_empty:
@@ -39,3 +50,12 @@ class ZipExportView(BrowserView):
             response.setHeader("Content-Length", os.stat(zip_file.name).st_size)
 
             return filestream_iterator(zip_file.name, 'rb')
+
+
+class ZipExportView(ZipSelectedExportView):
+
+    def __init__(self, *args, **kwargs):
+        super(ZipExportView, self).__init__(*args, **kwargs)
+
+    def __call__(self):
+        return self.zip_selected([self.context])
