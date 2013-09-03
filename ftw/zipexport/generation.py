@@ -23,8 +23,11 @@ class ZipGenerator(object):
         self.tmp_file.__exit__(exc_type, exc_value, traceback)
 
     def add_file(self, file_path, file_pointer):
+        try:
+            self.zip_file.writefile(file_pointer, file_path)
+        except RuntimeError:
+            raise("ZipFile already generated/closed. Please add all files before generating.")
         self.empty = False
-        self.zip_file.writefile(file_pointer, file_path)
 
     @property
     def is_empty(self):
@@ -33,4 +36,5 @@ class ZipGenerator(object):
     def generate(self):
         if self.tmp_file is None:
             raise("Please use ZipGenerator as a context manager.")
+        self.zip_file.close()
         return self.tmp_file
