@@ -44,6 +44,10 @@ class InvitationBuilder(DexterityBuilder):
 registry.builder_registry.register('invitation', InvitationBuilder)
 
 
+def dottedname(iface):
+    return '.'.join((iface.__module__, iface.__name__))
+
+
 class TestDexterityZipRepresentation(TestCase):
 
     layer = FTW_ZIPEXPORT_INTEGRATION_TESTING
@@ -56,11 +60,11 @@ class TestDexterityZipRepresentation(TestCase):
 
         # fti
         self.fti_note = DexterityFTI('note')
-        self.fti_note.schema = 'ftw.zipexport.tests.test_representation.INoteSchemaPrimary'
+        self.fti_note.schema = dottedname(INoteSchemaPrimary)
         self.portal.portal_types._setObject('note', self.fti_note)
 
         self.fti_invi = DexterityFTI('invitation')
-        self.fti_invi.schema = 'fti.zipexport.tests.test_representation.IInvitationSchemaNonPrimary'
+        self.fti_invi.schema = dottedname(IInvitationSchemaNonPrimary)
         self.portal.portal_types._setObject('invitation', self.fti_invi)
 
         # register
@@ -69,13 +73,13 @@ class TestDexterityZipRepresentation(TestCase):
 
         # create objects
         self.note = create(Builder("note")
-                            .having(blob=NamedBlobFile(data='NoteNoteNote',
-                                                        filename=u'note.txt')))
+                           .having(blob=NamedBlobFile(data='NoteNoteNote',
+                                                      filename=u'note.txt')))
 
         self.note_without_blob = create(Builder("note"))
 
         self.invitation = create(Builder("invitation")
-                            .with_constraints())
+                                 .with_constraints())
 
     def test_dexterity_item_gets_omittet_if_no_primary_field_set(self):
         ziprepresentation = getMultiAdapter((self.invitation, self.request),
@@ -84,13 +88,12 @@ class TestDexterityZipRepresentation(TestCase):
         files_converted = [(path, stream.read()) for path, stream in files]
         self.assertEquals([], files_converted)
 
-    # temporary disabled. test objects refuse to keep the primary marker
-    # def test_dexterity_item_gets_added_in_representation(self):
-    #     ziprepresentation = getMultiAdapter((self.note, self.request),
-    #                                         interface=IZipRepresentation)
-    #     files = list(ziprepresentation.get_files())
-    #     files_converted = [(path, stream.read()) for path, stream in files]
-    #     self.assertEquals([("/note.txt", "NoteNoteNote")], files_converted)
+    def test_dexterity_item_gets_added_in_representation(self):
+        ziprepresentation = getMultiAdapter((self.note, self.request),
+                                            interface=IZipRepresentation)
+        files = list(ziprepresentation.get_files())
+        files_converted = [(path, stream.read()) for path, stream in files]
+        self.assertEquals([("/note.txt", "NoteNoteNote")], files_converted)
 
     def test_item_gets_omittet_if_no_underlying_file_found(self):
         ziprepresentation = getMultiAdapter((self.note_without_blob, self.request),
