@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-09-03 14:52+0000\n"
+"POT-Creation-Date: 2013-09-04 14:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,10 +23,6 @@ msgstr ""
 
 #: ./ftw/zipexport/profiles/default/actions.xml
 msgid "Export data from plone into a zip archive."
-msgstr ""
-
-#: ./ftw/zipexport/profiles/default/actions.xml
-msgid "Export selected as Zip"
 msgstr ""
 
 #. Default: "Zip export is not supported on the selected content."

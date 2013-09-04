@@ -19,7 +19,7 @@
 
 	<object name="folder_buttons" meta_type="CMF Action Category">
 		<object name="zip_selected" meta_type="CMF Action" i18n:domain="ftw.zipexport">
-			<property name="title" i18n:translate="">Export selected as Zip</property>
+			<property name="title" i18n:translate="">Export as Zip</property>
 			<property name="description" i18n:translate=""></property>
 			<property name="url_expr">string:zip_selected:method</property>
 			<property name="icon_expr"></property>
