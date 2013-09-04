@@ -19,27 +19,14 @@ class TestZipGeneration(TestCase):
 
         self.request = portal.REQUEST
 
-        self.folder = create(Builder("folder")
-                            .titled("Folder 1"))
-
-        self.folderfile = create(Builder("file")
-                            .titled("File")
-                            .attach_file_containing("Testdata file in folder",
-                                                     "test.txt")
-                            .within(self.folder))
-
-        subfolder = create(Builder("folder")
-                            .titled("SubFolder")
-                            .within(self.folder))
-
-        self.subfolderfile = create(Builder("file")
-                                    .titled("SubFolderFile")
-                                    .attach_file_containing("Testdata file in subfolder",
-                                                             "subtest.txt")
-                                    .within(subfolder))
 
     def test_zip_is_not_empty(self):
-        ziprepresentation = getMultiAdapter((self.folder, self.request),
+        file = create(Builder("file")
+                            .titled("File")
+                            .attach_file_containing("Testdata file in subfolder",
+                                                     "subtest.txt"))
+        
+        ziprepresentation = getMultiAdapter((file, self.request),
                                             interface=IZipRepresentation)
         with ZipGenerator() as zipgenerator:
             self.assertTrue(zipgenerator.is_empty)
