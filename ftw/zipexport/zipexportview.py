@@ -6,7 +6,7 @@ import os
 from ZPublisher.Iterators import filestream_iterator
 from Products.statusmessages.interfaces import IStatusMessage
 from ftw.zipexport import _
-from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 
 
 class ZipSelectedExportView(BrowserView):
