@@ -97,4 +97,3 @@ class TestDexterityZipRepresentation(TestCase):
         files = list(ziprepresentation.get_files())
         files_converted = [(path, stream.read()) for path, stream in files]
         self.assertEquals([], files_converted)
-
