@@ -19,13 +19,12 @@ class TestZipGeneration(TestCase):
 
         self.request = portal.REQUEST
 
-
     def test_zip_is_not_empty(self):
         file = create(Builder("file")
                             .titled("File")
                             .attach_file_containing("Testdata file in subfolder",
                                                      "subtest.txt"))
-        
+
         ziprepresentation = getMultiAdapter((file, self.request),
                                             interface=IZipRepresentation)
         with ZipGenerator() as zipgenerator:
@@ -40,3 +39,24 @@ class TestZipGeneration(TestCase):
             if (not hasattr(generated_zip_pointer, "name")
             or (os.stat(generated_zip_pointer.name).st_size == 0)):
                 raise AssertionError()
+
+    def test_generator_raises_exception_when_not_used_as_generator(self):
+        zipgenerator = ZipGenerator()
+        self.assertRaises(StandardError, zipgenerator.generate)
+
+    def test_generator_raises_exception_when_files_added_after_generate(self):
+        file = create(Builder("file")
+                            .titled("File")
+                            .attach_file_containing("Testdata file in subfolder",
+                                                     "subtest.txt"))
+        ziprepresentation = getMultiAdapter((file, self.request),
+                                            interface=IZipRepresentation)
+
+        file_rep = ziprepresentation.get_files().next()
+
+        with ZipGenerator() as zipgenerator:
+            zipgenerator.add_file(file_rep[0], file_rep[1])
+
+            zipgenerator.generate()
+
+            self.assertRaises(StandardError, zipgenerator.add_file, file_rep)

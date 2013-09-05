@@ -26,7 +26,8 @@ class ZipGenerator(object):
         try:
             self.zip_file.writefile(file_pointer, file_path)
         except RuntimeError:
-            raise("ZipFile already generated/closed. Please add all files before generating.")
+            raise StandardError("ZipFile already generated/closed.\
+                Please add all files before generating.")
         self.empty = False
 
     @property
@@ -35,6 +36,6 @@ class ZipGenerator(object):
 
     def generate(self):
         if self.tmp_file is None:
-            raise("Please use ZipGenerator as a context manager.")
+            raise StandardError("Please use ZipGenerator as a context manager.")
         self.zip_file.close()
         return self.tmp_file
