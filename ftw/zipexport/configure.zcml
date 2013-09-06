@@ -1,0 +1,37 @@
+<configure
+	xmlns="http://namespaces.zope.org/zope"
+	xmlns:browser="http://namespaces.zope.org/browser"
+	xmlns:five="http://namespaces.zope.org/five"
+	xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+	xmlns:i18n="http://namespaces.zope.org/i18n"
+	xmlns:zcml="http://namespaces.zope.org/zcml"
+	i18n_domain="ftw.zipexport">
+	
+	<i18n:registerTranslations directory="locales" />
+	
+	<adapter factory=".representation.NullZipRepresentation" />
+	<adapter factory=".representation.FolderZipRepresentation" />
+	<adapter factory=".representation.FileZipRepresentation" />
+	<adapter factory=".representation.DexterityItemZipRepresentation" />
+
+	<browser:page
+		for="*"
+		name="zip_export"
+		class=".zipexportview.ZipExportView"
+		permission="zope2.View"
+		/>
+
+	<browser:page
+		for="*"
+		name="zip_selected"
+		class=".zipexportview.ZipSelectedExportView"
+		permission="zope2.View"
+		/>
+
+	<genericsetup:registerProfile
+		name="default" title="ftw.zipexport"
+		description="A product to export data from plone into a zip archive."
+		directory="profiles/default"
+		provides="Products.GenericSetup.interfaces.EXTENSION"
+		/>
+</configure>
