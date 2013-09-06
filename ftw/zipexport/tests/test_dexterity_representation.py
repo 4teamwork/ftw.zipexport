@@ -71,32 +71,31 @@ class TestDexterityZipRepresentation(TestCase):
         register(self.fti_note)
         register(self.fti_invi)
 
-        # create objects
-        self.note = create(Builder("note")
-                           .having(blob=NamedBlobFile(data='NoteNoteNote',
-                                                      filename=u'note.txt')))
-
-        self.note_without_blob = create(Builder("note"))
-
-        self.invitation = create(Builder("invitation")
-                                 .with_constraints())
-
     def test_dexterity_item_gets_omittet_if_no_primary_field_set(self):
-        ziprepresentation = getMultiAdapter((self.invitation, self.request),
+        invitation = create(Builder("invitation")
+                            .with_constraints())
+
+        ziprepresentation = getMultiAdapter((invitation, self.request),
                                             interface=IZipRepresentation)
         files = list(ziprepresentation.get_files())
         files_converted = [(path, stream.read()) for path, stream in files]
         self.assertEquals([], files_converted)
 
     def test_dexterity_item_gets_added_in_representation(self):
-        ziprepresentation = getMultiAdapter((self.note, self.request),
+        note = create(Builder("note")
+                           .having(blob=NamedBlobFile(data='NoteNoteNote',
+                                                      filename=u'note.txt')))
+
+        ziprepresentation = getMultiAdapter((note, self.request),
                                             interface=IZipRepresentation)
         files = list(ziprepresentation.get_files())
         files_converted = [(path, stream.read()) for path, stream in files]
         self.assertEquals([("/note.txt", "NoteNoteNote")], files_converted)
 
     def test_item_gets_omittet_if_no_underlying_file_found(self):
-        ziprepresentation = getMultiAdapter((self.note_without_blob, self.request),
+        note_without_blob = create(Builder("note"))
+
+        ziprepresentation = getMultiAdapter((note_without_blob, self.request),
                                             interface=IZipRepresentation)
         files = list(ziprepresentation.get_files())
         files_converted = [(path, stream.read()) for path, stream in files]
