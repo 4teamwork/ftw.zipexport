@@ -1,5 +1,5 @@
 from ftw.zipexport.interfaces import IZipRepresentation
-from ftw.zipexport.archetypes_representation import NullZipRepresentation
+from ftw.zipexport.representations.general import NullZipRepresentation
 from plone.namedfile.interfaces import INamedBlobFileField
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from plone.dexterity.interfaces import IDexterityItem

@@ -9,12 +9,12 @@
 	
 	<i18n:registerTranslations directory="locales" />
 	
-	<adapter factory=".archetypes_representation.NullZipRepresentation" />
-	<adapter factory=".archetypes_representation.FolderZipRepresentation" />
-	<adapter factory=".archetypes_representation.FileZipRepresentation" />
+	<adapter factory=".representations.general.NullZipRepresentation" />
+	<adapter factory=".representations.archetypes.FolderZipRepresentation" />
+	<adapter factory=".representations.archetypes.FileZipRepresentation" />
 	
 	<configure zcml:condition="installed plone.app.dexterity">
-		<adapter factory=".dexterity_representation.DexterityItemZipRepresentation" />
+		<adapter factory=".representations.dexterity.DexterityItemZipRepresentation" />
 	</configure>
 
 	<browser:page
