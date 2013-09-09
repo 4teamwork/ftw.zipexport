@@ -19,7 +19,7 @@ class DexterityItemZipRepresentation(NullZipRepresentation):
                                          interface=IPrimaryFieldInfo)
         except TypeError:
             # if no primary field is available PrimaryFieldInfo Adapter throws TypeError
-            raise StopIteration
+            return
 
         if INamedBlobFileField.providedBy(primary_adapter.field):
             if primary_adapter.value:
