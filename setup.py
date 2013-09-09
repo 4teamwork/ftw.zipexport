@@ -8,6 +8,9 @@ maintainer = 'Lukas Knoepfel'
 tests_require = [
     'ftw.builder',
     'plone.app.testing',
+    'plone.directives.form',
+    'plone.app.dexterity',
+    'plone.namedfile',
     ]
 
 extras_require = {
@@ -45,9 +48,6 @@ setup(name='ftw.zipexport',
       install_requires=[
         'Products.CMFCore',
         'setuptools',
-        'plone.directives.form',
-        'plone.dexterity',
-        'plone.namedfile',
         # -*- Extra requirements: -*-
         ],
       tests_require=tests_require,
