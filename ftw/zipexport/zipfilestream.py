@@ -9,6 +9,12 @@ class ZipFile(zipfile.ZipFile):
     to a zip.
     """
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+
     def writefile(self, fileobj, arctype=None, compress_type=None):
         # check if fileobj has the attribute name,
         # the file exists and is readable
