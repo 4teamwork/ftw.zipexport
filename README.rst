@@ -79,10 +79,9 @@ Here is the sample code of the described steps:
 		generated_zip_pointer = zipgenerator.generate()
 
 
-The download is handled in a standart BrowserView which plainly reads from the temp file.
+The download is handled in a standard BrowserView which plainly reads from the temp file.
 For details check out the code:
 `zipexportview.py <https://github.com/4teamwork/ftw.zipexport/blob/master/ftw/zipexport/zipexportview.py>`_.
-
 
 Current supported data-types
 ----------------------------
