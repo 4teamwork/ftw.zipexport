@@ -11,6 +11,7 @@ tests_require = [
     'plone.directives.form',
     'plone.app.dexterity',
     'plone.namedfile',
+    'z3c.blobfile',
     ]
 
 extras_require = {
