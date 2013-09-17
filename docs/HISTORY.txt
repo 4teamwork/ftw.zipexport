@@ -5,7 +5,8 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix encoding problem with nested folders containing umlauts in the title.
+  [jone]
 
 
 1.0.0 (2013-09-13)
