@@ -19,7 +19,7 @@ class FolderZipRepresentation(NullZipRepresentation):
         brains = self.context.getFolderContents()
         content = [brain.getObject() for brain in brains]
         if not toplevel:
-            path_prefix += "/" + self.context.title
+            path_prefix += "/" + self.context.Title()
 
         for obj in content:
             adapt = getMultiAdapter((obj, self.request),
