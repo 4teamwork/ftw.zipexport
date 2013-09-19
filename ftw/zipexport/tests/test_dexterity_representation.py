@@ -14,38 +14,31 @@ from ftw.builder.dexterity import DexterityBuilder
 from plone.dexterity.fti import DexterityFTI
 from ftw.builder import registry
 from plone.dexterity.fti import register
+from ftw.zipexport.tests import dottedname
 
 
 class INoteSchemaPrimary(form.Schema):
     form.primary('blob')
     blob = field.NamedBlobFile(
-        title=u'afile',
+        title=u'blobfile',
         required=False,
         )
-
 alsoProvides(INoteSchemaPrimary, IDexterityItem)
 
 
 class IInvitationSchemaNonPrimary(form.Schema):
     pass
-
 alsoProvides(IInvitationSchemaNonPrimary, IDexterityItem)
 
 
 class NoteBuilder(DexterityBuilder):
     portal_type = 'note'
-
 registry.builder_registry.register('note', NoteBuilder)
 
 
 class InvitationBuilder(DexterityBuilder):
     portal_type = 'invitation'
-
 registry.builder_registry.register('invitation', InvitationBuilder)
-
-
-def dottedname(iface):
-    return '.'.join((iface.__module__, iface.__name__))
 
 
 class TestDexterityZipRepresentation(TestCase):
