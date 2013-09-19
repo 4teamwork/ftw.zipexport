@@ -28,7 +28,6 @@ class FolderZipRepresentation(NullZipRepresentation):
             for item in adapt.get_files(path_prefix=path_prefix,
                                     recursive=recursive,
                                     toplevel=False):
-
                 yield item
 
 
@@ -37,5 +36,8 @@ class FileZipRepresentation(NullZipRepresentation):
     adapts(IFileContent, Interface)
 
     def get_files(self, path_prefix="", recursive=True, toplevel=True):
-        yield (path_prefix + "/" + self.context.getFile().getFilename(),
+        filename = self.context.getFile().getFilename()
+        if isinstance(filename, unicode):
+            filename = filename.encode('utf-8')
+        yield ("%s/%s" % (path_prefix, filename),
                 self.context.getFile().getBlob().open())
