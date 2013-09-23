@@ -1,12 +1,17 @@
 from ftw.zipexport.interfaces import IZipRepresentation
 from ftw.zipexport.representations.general import NullZipRepresentation
-from plone.namedfile.interfaces import INamedBlobFileField
+from plone.namedfile.interfaces import INamedFileField
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from plone.dexterity.interfaces import IDexterityItem
 from zope.component import adapts
 from zope.component import getAdapter
 from zope.interface import implements
 from zope.interface import Interface
+from StringIO import StringIO
+
+from plone.namedfile.interfaces import HAVE_BLOBS
+if HAVE_BLOBS:
+    from plone.namedfile.interfaces import INamedBlobFile
 
 
 class DexterityItemZipRepresentation(NullZipRepresentation):
@@ -21,7 +26,14 @@ class DexterityItemZipRepresentation(NullZipRepresentation):
             # if no primary field is available PrimaryFieldInfo Adapter throws TypeError
             return
 
-        if INamedBlobFileField.providedBy(primary_adapter.field):
+        if INamedFileField.providedBy(primary_adapter.field):
+            named_file = primary_adapter.value
             if primary_adapter.value:
-                namedblob = primary_adapter.value
-                yield (path_prefix + "/" + namedblob.filename, namedblob.open())
+                yield self.get_file_tuple(named_file, path_prefix)
+
+    def get_file_tuple(self, named_file, path_prefix):
+        if HAVE_BLOBS and INamedBlobFile.providedBy(named_file):
+            return (path_prefix + "/" + named_file.filename, named_file.open())
+        else:
+            stream_data = StringIO(named_file.data)
+            return (path_prefix + "/" + named_file.filename, stream_data)
