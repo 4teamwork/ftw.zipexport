@@ -28,10 +28,19 @@ class TestExportView(TestCase):
         export = self.file.restrictedTraverse("@@zipexport-enabled")
         self.assertTrue(export.zipexport_enabled())
 
-    def test_export_is_disabled_when_unprovided_interface_is_configured(self):
+    def test_export_is_disabled_when_non_existent_interface_is_configured(self):
         registry = getUtility(IRegistry)
         reg_proxy = registry.forInterface(IZipExportSettings)
         reg_proxy.enabled_dotted_name = u"some.other.interface"
+
+        export = self.file.restrictedTraverse("@@zipexport-enabled")
+
+        self.assertFalse(export.zipexport_enabled())
+
+    def test_export_is_disabled_when_unprovided_interface_is_configured(self):
+        registry = getUtility(IRegistry)
+        reg_proxy = registry.forInterface(IZipExportSettings)
+        reg_proxy.enabled_dotted_name = u"OFS.interfaces.IFolder"
 
         export = self.file.restrictedTraverse("@@zipexport-enabled")
 
