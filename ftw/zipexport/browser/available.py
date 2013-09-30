@@ -15,5 +15,9 @@ class ZipExportEnabled(BrowserView):
         """
         registry = getUtility(IRegistry)
         reg_proxy = registry.forInterface(IZipExportSettings)
-        interface_class = resolve(reg_proxy.enabled_dotted_name)
+        try:
+            interface_class = resolve(reg_proxy.enabled_dotted_name)
+        except ImportError:
+            return False
+
         return interface_class and interface_class.providedBy(self.context)
