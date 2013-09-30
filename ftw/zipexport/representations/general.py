@@ -16,4 +16,4 @@ class NullZipRepresentation(object):
         self.request = request
 
     def get_files(self, path_prefix="", recursive=True, toplevel=True):
-        return
+        return []

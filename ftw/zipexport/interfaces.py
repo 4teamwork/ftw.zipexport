@@ -1,4 +1,9 @@
+from zope import schema
 from zope.interface import Interface
+
+class IZipExportSettings(Interface):
+    enabled_dotted_name = schema.TextLine(title=u"Inteface dotted-name on which zipexport is enabled.",
+                                                default=u"Products.CMFCore.interfaces._content.IContentish")
 
 
 class IZipRepresentation(Interface):

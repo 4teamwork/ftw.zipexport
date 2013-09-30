@@ -9,7 +9,7 @@
 			<property name="url_expr">string:${object_url}/zip_export</property>
 			<property name="link_target"></property>
 			<property name="icon_expr"></property>
-			<property name="available_expr"></property>
+			<property name="available_expr">python:object.restrictedTraverse('@@zipexport-enabled').zipexport_enabled()</property>
 			<property name="permissions">
 				<element value="View" />
 			</property>
@@ -23,7 +23,7 @@
 			<property name="description" i18n:translate=""></property>
 			<property name="url_expr">string:zip_selected:method</property>
 			<property name="icon_expr"></property>
-			<property name="available_expr"></property>
+			<property name="available_expr">python:object.restrictedTraverse('@@zipexport-enabled').zipexport_enabled()</property>
 			<property name="permissions">
 				<element value="View"/>
 			</property>
