@@ -2,9 +2,11 @@ Changelog
 =========
 
 
-1.0.1 (unreleased)
+1.1.0 (unreleased)
 ------------------
 
+- Added export limitation.
+  [lknoepfel]
 - Fix encoding problem with nested folders containing umlauts in the title.
   [jone]
 
