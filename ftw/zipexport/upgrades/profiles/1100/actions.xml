@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<object name="portal_actions" meta_type="Plone Actions Tool"
+xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+    <object name="object_buttons" meta_type="CMF Action Category">
+        <object name="zipexport" meta_type="CMF Action" i18n:domain="ftw.zipexport" purge="false">
+            <property name="available_expr">
+                python:object.restrictedTraverse('@@zipexport-enabled').zipexport_enabled()
+            </property>
+        </object>
+    </object>
+</object>
