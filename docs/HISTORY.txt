@@ -5,8 +5,8 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added handling for files with same filename.
+  [lknoepfel]
 
 1.1.0 (2013-10-14)
 ------------------
