@@ -21,9 +21,9 @@ class TestZipGeneration(TestCase):
 
     def test_zip_is_not_empty(self):
         file = create(Builder("file")
-                            .titled("File")
-                            .attach_file_containing("Testdata file in subfolder",
-                                                     "subtest.txt"))
+                        .titled("File")
+                        .attach_file_containing("Testdata file in subfolder",
+                                                 "subtest.txt"))
 
         ziprepresentation = getMultiAdapter((file, self.request),
                                             interface=IZipRepresentation)
@@ -46,9 +46,9 @@ class TestZipGeneration(TestCase):
 
     def test_generator_raises_exception_when_files_added_after_generate(self):
         file = create(Builder("file")
-                            .titled("File")
-                            .attach_file_containing("Testdata file in subfolder",
-                                                     "subtest.txt"))
+                        .titled("File")
+                        .attach_file_containing("Testdata file in subfolder",
+                                                 "subtest.txt"))
         ziprepresentation = getMultiAdapter((file, self.request),
                                             interface=IZipRepresentation)
 
@@ -60,3 +60,28 @@ class TestZipGeneration(TestCase):
             zipgenerator.generate()
 
             self.assertRaises(StandardError, zipgenerator.add_file, file_rep)
+
+    def test_generator_creates_unique_file_names(self):
+        folder = create(Builder('folder').titled("folder"))
+        create(Builder("file")
+                        .within(folder)
+                        .attach_file_containing("File1", "file.txt"))
+        create(Builder("file")
+                        .within(folder)
+                        .attach_file_containing("File2", "file.txt"))
+        create(Builder("file")
+                        .within(folder)
+                        .attach_file_containing("File3", "file.txt"))
+
+        ziprepresentation = getMultiAdapter((folder, self.request),
+                                            interface=IZipRepresentation)
+
+        with ZipGenerator() as zipgenerator:
+            for path, pointer in ziprepresentation.get_files():
+                zipgenerator.add_file(path, pointer)
+
+            in_zip_file_list = zipgenerator.zip_file.namelist()
+
+            self.assertEquals(
+                ['file.txt', 'file (2).txt', 'file (3).txt'],
+                in_zip_file_list)
