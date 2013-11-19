@@ -7,6 +7,8 @@ Changelog
 
 - Added handling for files with same filename.
   [lknoepfel]
+- Added a separate profile to install an additional zip-export document action.
+  [deif]
 
 1.1.0 (2013-10-14)
 ------------------
