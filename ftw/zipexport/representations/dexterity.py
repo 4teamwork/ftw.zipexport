@@ -1,13 +1,13 @@
 from ftw.zipexport.interfaces import IZipRepresentation
 from ftw.zipexport.representations.general import NullZipRepresentation
+from plone.dexterity.interfaces import IDexterityItem
 from plone.namedfile.interfaces import INamedFileField
 from plone.rfc822.interfaces import IPrimaryFieldInfo
-from plone.dexterity.interfaces import IDexterityItem
+from StringIO import StringIO
 from zope.component import adapts
 from zope.component import getAdapter
 from zope.interface import implements
 from zope.interface import Interface
-from StringIO import StringIO
 
 from plone.namedfile.interfaces import HAVE_BLOBS
 if HAVE_BLOBS:

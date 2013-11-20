@@ -1,12 +1,12 @@
-from Products.Five.browser import BrowserView
-from ftw.zipexport.interfaces import IZipRepresentation
-from ftw.zipexport.generation import ZipGenerator
-from zope.component import getMultiAdapter
-import os
-from ZPublisher.Iterators import filestream_iterator
-from Products.statusmessages.interfaces import IStatusMessage
 from ftw.zipexport import _
+from ftw.zipexport.generation import ZipGenerator
+from ftw.zipexport.interfaces import IZipRepresentation
+from Products.Five.browser import BrowserView
+from Products.statusmessages.interfaces import IStatusMessage
+from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
+from ZPublisher.Iterators import filestream_iterator
+import os
 
 
 class ZipSelectedExportView(BrowserView):

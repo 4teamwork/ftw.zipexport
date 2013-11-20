@@ -1,11 +1,11 @@
 from ftw.builder import Builder, create
+from ftw.zipexport.generation import ZipGenerator
 from ftw.zipexport.interfaces import IZipRepresentation
 from ftw.zipexport.testing import FTW_ZIPEXPORT_INTEGRATION_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from unittest2 import TestCase
 from zope.component import getMultiAdapter
-from ftw.zipexport.generation import ZipGenerator
 import os
 
 

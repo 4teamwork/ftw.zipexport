@@ -1,9 +1,9 @@
 from ftw.builder import Builder, create
-from ftw.zipexport.testing import FTW_ZIPEXPORT_INTEGRATION_TESTING
 from ftw.zipexport.interfaces import IZipRepresentation
-from unittest2 import TestCase
-from plone.app.testing import TEST_USER_ID
+from ftw.zipexport.testing import FTW_ZIPEXPORT_INTEGRATION_TESTING
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from unittest2 import TestCase
 from zope.component import getMultiAdapter
 
 

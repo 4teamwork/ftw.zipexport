@@ -1,10 +1,10 @@
-from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import PLONE_FIXTURE
+from ftw.builder.testing import BUILDER_LAYER
+from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
-from plone.app.testing import applyProfile
+from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import PLONE_FIXTURE
 from zope.configuration import xmlconfig
-from ftw.builder.testing import BUILDER_LAYER
 
 
 class FtwZipexportLayer(PloneSandboxLayer):

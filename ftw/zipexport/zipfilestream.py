@@ -1,6 +1,6 @@
+from tempfile import NamedTemporaryFile
 import os
 import zipfile
-from tempfile import NamedTemporaryFile
 
 
 class ZipFile(zipfile.ZipFile):

@@ -1,5 +1,5 @@
-from tempfile import NamedTemporaryFile
 from ftw.zipexport.zipfilestream import ZipFile
+from tempfile import NamedTemporaryFile
 import os
 import sys
 

@@ -1,10 +1,10 @@
-from ZPublisher.Iterators import filestream_iterator
 from ftw.builder import Builder
 from ftw.builder import create
 from ftw.zipexport.testing import FTW_ZIPEXPORT_FUNCTIONAL_TESTING
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from unittest2 import TestCase
+from ZPublisher.Iterators import filestream_iterator
 
 
 class TestExport(TestCase):

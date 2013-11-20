@@ -1,8 +1,8 @@
-from zope.publisher.browser import BrowserView
+from ftw.zipexport.interfaces import IZipExportSettings
+from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
-from plone.registry.interfaces import IRegistry
-from ftw.zipexport.interfaces import IZipExportSettings
+from zope.publisher.browser import BrowserView
 
 
 class ZipExportEnabled(BrowserView):

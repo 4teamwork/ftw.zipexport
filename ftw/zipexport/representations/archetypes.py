@@ -1,11 +1,11 @@
 from ftw.zipexport.interfaces import IZipRepresentation
 from ftw.zipexport.representations.general import NullZipRepresentation
+from Products.ATContentTypes.interfaces.file import IFileContent
 from Products.CMFCore.interfaces import IFolderish
 from zope.component import adapts
 from zope.component import getMultiAdapter
 from zope.interface import implements
 from zope.interface import Interface
-from Products.ATContentTypes.interfaces.file import IFileContent
 
 
 class FolderZipRepresentation(NullZipRepresentation):

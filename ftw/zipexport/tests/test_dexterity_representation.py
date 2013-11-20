@@ -1,20 +1,20 @@
+from ftw.builder import Builder, create
+from ftw.builder import registry
+from ftw.builder.dexterity import DexterityBuilder
+from ftw.zipexport.interfaces import IZipRepresentation
+from ftw.zipexport.testing import FTW_ZIPEXPORT_INTEGRATION_TESTING
+from ftw.zipexport.tests import dottedname
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.dexterity.fti import DexterityFTI
+from plone.dexterity.fti import register
+from plone.dexterity.interfaces import IDexterityItem
+from plone.directives import form
 from plone.namedfile import field
 from plone.namedfile.file import NamedBlobFile
-from plone.directives import form
-from zope.interface import alsoProvides
-from plone.dexterity.interfaces import IDexterityItem
-from ftw.builder import Builder, create
-from ftw.zipexport.testing import FTW_ZIPEXPORT_INTEGRATION_TESTING
-from ftw.zipexport.interfaces import IZipRepresentation
 from unittest2 import TestCase
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import setRoles
 from zope.component import getMultiAdapter
-from ftw.builder.dexterity import DexterityBuilder
-from plone.dexterity.fti import DexterityFTI
-from ftw.builder import registry
-from plone.dexterity.fti import register
-from ftw.zipexport.tests import dottedname
+from zope.interface import alsoProvides
 
 
 class INoteSchemaPrimary(form.Schema):
