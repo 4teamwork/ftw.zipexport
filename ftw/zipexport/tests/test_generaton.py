@@ -23,7 +23,7 @@ class TestZipGeneration(TestCase):
         file = create(Builder("file")
                         .titled("File")
                         .attach_file_containing("Testdata file in subfolder",
-                                                 "subtest.txt"))
+                                                 u"subtest.txt"))
 
         ziprepresentation = getMultiAdapter((file, self.request),
                                             interface=IZipRepresentation)
@@ -48,7 +48,7 @@ class TestZipGeneration(TestCase):
         file = create(Builder("file")
                         .titled("File")
                         .attach_file_containing("Testdata file in subfolder",
-                                                 "subtest.txt"))
+                                                 u"subtest.txt"))
         ziprepresentation = getMultiAdapter((file, self.request),
                                             interface=IZipRepresentation)
 
@@ -65,13 +65,13 @@ class TestZipGeneration(TestCase):
         folder = create(Builder('folder').titled("folder"))
         create(Builder("file")
                         .within(folder)
-                        .attach_file_containing("File1", "file.txt"))
+                        .attach_file_containing("File1", u"file.txt"))
         create(Builder("file")
                         .within(folder)
-                        .attach_file_containing("File2", "file.txt"))
+                        .attach_file_containing("File2", u"file.txt"))
         create(Builder("file")
                         .within(folder)
-                        .attach_file_containing("File3", "file.txt"))
+                        .attach_file_containing("File3", u"file.txt"))
 
         ziprepresentation = getMultiAdapter((folder, self.request),
                                             interface=IZipRepresentation)
@@ -83,5 +83,5 @@ class TestZipGeneration(TestCase):
             in_zip_file_list = zipgenerator.zip_file.namelist()
 
             self.assertEquals(
-                ['file.txt', 'file (2).txt', 'file (3).txt'],
+                [u'file.txt', u'file (2).txt', u'file (3).txt'],
                 in_zip_file_list)

@@ -18,7 +18,7 @@ class DexterityItemZipRepresentation(NullZipRepresentation):
     implements(IZipRepresentation)
     adapts(IDexterityItem, Interface)
 
-    def get_files(self, path_prefix="", recursive=True, toplevel=True):
+    def get_files(self, path_prefix=u"", recursive=True, toplevel=True):
         try:
             primary_adapter = getAdapter(self.context,
                                          interface=IPrimaryFieldInfo)
@@ -32,8 +32,9 @@ class DexterityItemZipRepresentation(NullZipRepresentation):
                 yield self.get_file_tuple(named_file, path_prefix)
 
     def get_file_tuple(self, named_file, path_prefix):
+        path = u'{0}/{1}'.format(path_prefix, named_file.filename)
         if HAVE_BLOBS and INamedBlobFile.providedBy(named_file):
-            return (path_prefix + "/" + named_file.filename, named_file.open())
+            return (path, named_file.open())
         else:
             stream_data = StringIO(named_file.data)
-            return (path_prefix + "/" + named_file.filename, stream_data)
+            return (path, stream_data)

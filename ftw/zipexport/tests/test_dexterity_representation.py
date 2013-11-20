@@ -83,7 +83,7 @@ class TestDexterityZipRepresentation(TestCase):
                                             interface=IZipRepresentation)
         files = list(ziprepresentation.get_files())
         files_converted = [(path, stream.read()) for path, stream in files]
-        self.assertEquals([("/note.txt", "NoteNoteNote")], files_converted)
+        self.assertEquals([(u"/note.txt", "NoteNoteNote")], files_converted)
 
     def test_item_gets_omittet_if_no_underlying_file_found(self):
         note_without_blob = create(Builder("note"))
@@ -93,3 +93,17 @@ class TestDexterityZipRepresentation(TestCase):
         files = list(ziprepresentation.get_files())
         files_converted = [(path, stream.read()) for path, stream in files]
         self.assertEquals([], files_converted)
+
+    def test_dexterity_unicode_container_name(self):
+        folder = create(Builder('folder').titled('folder'))
+        subfolder = create(Builder('folder').within(folder).titled('f\xc3\xb6lder'.decode('utf-8')))
+        create(Builder("note")
+                   .within(subfolder)
+                   .having(blob=NamedBlobFile(data='NoteNoteNote',
+                                              filename='n\xc3\xb6te'.decode('utf-8'))))
+
+        ziprepresentation = getMultiAdapter((folder, self.request),
+                                            interface=IZipRepresentation)
+        files = list(ziprepresentation.get_files())
+        files_converted = [(path, stream.read()) for path, stream in files]
+        self.assertEquals([('/f\xc3\xb6lder/n\xc3\xb6te'.decode('utf-8'), 'NoteNoteNote')], files_converted)
