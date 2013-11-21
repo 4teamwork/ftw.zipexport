@@ -40,4 +40,12 @@
 		directory="profiles/default"
 		provides="Products.GenericSetup.interfaces.EXTENSION"
 		/>
+
+	<genericsetup:registerProfile
+		name="documentaction" title="ftw.zipexport: Document Action"
+		description="Provides a zip-export document action."
+		directory="profiles/documentaction"
+		provides="Products.GenericSetup.interfaces.EXTENSION"
+		/>
+
 </configure>
