@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.1 (unreleased)
+1.1.1 (2013-11-21)
 ------------------
 
 - Added handling for files with same filename.
