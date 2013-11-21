@@ -1,12 +1,12 @@
+from ftw.builder import Builder, create
+from ftw.zipexport.testing import FTW_ZIPEXPORT_FUNCTIONAL_TESTING
+from ftw.zipexport.zipfilestream import ZipFile
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from ftw.zipexport.testing import FTW_ZIPEXPORT_FUNCTIONAL_TESTING
-from unittest2 import TestCase
 from plone.testing.z2 import Browser
-from ftw.builder import Builder, create
-import transaction
 from StringIO import StringIO
-from ftw.zipexport.zipfilestream import ZipFile
+from unittest2 import TestCase
+import transaction
 
 
 class TestExportView(TestCase):

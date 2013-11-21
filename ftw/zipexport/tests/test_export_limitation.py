@@ -1,12 +1,12 @@
+from ftw.builder import Builder, create
+from ftw.zipexport.interfaces import IZipExportSettings
+from ftw.zipexport.testing import FTW_ZIPEXPORT_FUNCTIONAL_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from ftw.builder import Builder, create
-from ftw.zipexport.testing import FTW_ZIPEXPORT_FUNCTIONAL_TESTING
-from unittest2 import TestCase
 from plone.registry.interfaces import IRegistry
-from ftw.zipexport.interfaces import IZipExportSettings
-from zope.component import getUtility
 from plone.testing.z2 import Browser
+from unittest2 import TestCase
+from zope.component import getUtility
 
 
 class TestExportView(TestCase):

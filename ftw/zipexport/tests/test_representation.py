@@ -1,9 +1,9 @@
 from ftw.builder import Builder, create
-from ftw.zipexport.testing import FTW_ZIPEXPORT_INTEGRATION_TESTING
 from ftw.zipexport.interfaces import IZipRepresentation
-from unittest2 import TestCase
-from plone.app.testing import TEST_USER_ID
+from ftw.zipexport.testing import FTW_ZIPEXPORT_INTEGRATION_TESTING
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from unittest2 import TestCase
 from zope.component import getMultiAdapter
 
 
@@ -23,7 +23,7 @@ class TestArchetypeZipRepresentation(TestCase):
         self.folderfile = create(Builder("file")
                             .titled("File")
                             .attach_file_containing("Testdata file in folder",
-                                                     "test.txt")
+                                                     u"test.txt")
                             .within(self.folder))
 
         subfolder = create(Builder("folder")
@@ -46,8 +46,8 @@ class TestArchetypeZipRepresentation(TestCase):
                                             interface=IZipRepresentation)
         files = list(ziprepresentation.get_files(recursive=True))
         files_converted = [(path, stream.read()) for path, stream in files]
-        self.assertEquals([("/test.txt", "Testdata file in folder"),
-                            ("/SubF\xc3\xb6lder/s\xc3\xb6btest.txt", "Testdata file in subfolder")],
+        self.assertEquals([(u"/test.txt", "Testdata file in folder"),
+                            ("/SubF\xc3\xb6lder/s\xc3\xb6btest.txt".decode('utf-8'), "Testdata file in subfolder")],
                             files_converted)
 
     def test_file_represents_itself(self):
@@ -55,5 +55,5 @@ class TestArchetypeZipRepresentation(TestCase):
                                             interface=IZipRepresentation)
         files = list(ziprepresentation.get_files())
         files_converted = [(path, stream.read()) for path, stream in files]
-        self.assertEquals([("/test.txt", "Testdata file in folder")],
+        self.assertEquals([(u"/test.txt", "Testdata file in folder")],
                             files_converted)
