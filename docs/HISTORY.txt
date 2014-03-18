@@ -5,7 +5,8 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added French translation by I. Anthenien.
+  [lknoepfel]
 
 
 1.1.1 (2013-11-21)
