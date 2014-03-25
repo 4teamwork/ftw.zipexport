@@ -1,29 +1,29 @@
 <configure
-	xmlns="http://namespaces.zope.org/zope"
-	xmlns:browser="http://namespaces.zope.org/browser"
-	xmlns:five="http://namespaces.zope.org/five"
-	xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-	xmlns:i18n="http://namespaces.zope.org/i18n"
-	i18n_domain="ftw.zipexport">
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="ftw.zipexport">
 
-	<i18n:registerTranslations directory="locales" />
+    <i18n:registerTranslations directory="locales" />
 
-	<include package=".browser" />
-	<include package=".upgrades" />
-  <include package=".representations" />
+    <include package=".browser" />
+    <include package=".upgrades" />
+    <include package=".representations" />
 
-	<genericsetup:registerProfile
-		name="default" title="ftw.zipexport"
-		description="A product to export data from plone into a zip archive."
-		directory="profiles/default"
-		provides="Products.GenericSetup.interfaces.EXTENSION"
-		/>
+    <genericsetup:registerProfile
+        name="default" title="ftw.zipexport"
+        description="A product to export data from plone into a zip archive."
+        directory="profiles/default"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
 
-	<genericsetup:registerProfile
-		name="documentaction" title="ftw.zipexport: Document Action"
-		description="Provides a zip-export document action."
-		directory="profiles/documentaction"
-		provides="Products.GenericSetup.interfaces.EXTENSION"
-		/>
+    <genericsetup:registerProfile
+        name="documentaction" title="ftw.zipexport: Document Action"
+        description="Provides a zip-export document action."
+        directory="profiles/documentaction"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
 
 </configure>
