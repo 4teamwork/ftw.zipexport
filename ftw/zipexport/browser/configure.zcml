@@ -7,7 +7,21 @@
         for="zope.interface.Interface"
         class=".available.ZipExportEnabled"
         permission="zope2.View"
-		allowed_attributes="zipexport_enabled"
+        allowed_attributes="zipexport_enabled"
+        />
+
+    <browser:page
+        for="*"
+        name="zip_export"
+        class=".zipexportview.ZipExportView"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="*"
+        name="zip_selected"
+        class=".zipexportview.ZipSelectedExportView"
+        permission="zope2.View"
         />
 
 </configure>
