@@ -1,0 +1,18 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="ftw.zipexport">
+
+    <adapter factory=".general.NullZipRepresentation" />
+
+    <!-- Arechetypes default representations -->
+    <adapter factory=".archetypes.FolderZipRepresentation" />
+    <adapter factory=".archetypes.FileZipRepresentation" />
+    <adapter factory=".archetypes.ImageZipRepresentation" />
+
+    <!-- Dexterity default representations -->
+    <configure zcml:condition="installed plone.app.dexterity">
+        <adapter factory=".dexterity.DexterityItemZipRepresentation" />
+    </configure>
+
+</configure>
