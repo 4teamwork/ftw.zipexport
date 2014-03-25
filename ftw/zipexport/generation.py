@@ -55,6 +55,7 @@ class ZipGenerator(object):
 
     def generate(self):
         if self.tmp_file is None:
-            raise StandardError("Please use ZipGenerator as a context manager.")
+            raise StandardError(
+                "Please use ZipGenerator as a context manager.")
         self.zip_file.close()
         return self.tmp_file
