@@ -1,11 +1,12 @@
+from Products.ATContentTypes.interfaces.file import IATFile
+from Products.ATContentTypes.interfaces.image import IATImage
+from Products.CMFCore.interfaces import IFolderish
 from ftw.zipexport.interfaces import IZipRepresentation
 from ftw.zipexport.representations.general import NullZipRepresentation
-from Products.ATContentTypes.interfaces.file import IFileContent
-from Products.CMFCore.interfaces import IFolderish
 from zope.component import adapts
 from zope.component import getMultiAdapter
-from zope.interface import implements
 from zope.interface import Interface
+from zope.interface import implements
 
 
 class FolderZipRepresentation(NullZipRepresentation):
@@ -34,7 +35,7 @@ class FolderZipRepresentation(NullZipRepresentation):
 
 class FileZipRepresentation(NullZipRepresentation):
     implements(IZipRepresentation)
-    adapts(IFileContent, Interface)
+    adapts(IATFile, Interface)
 
     def get_files(self, path_prefix=u"", recursive=True, toplevel=True):
         filename = self.context.getFile().getFilename()
@@ -42,3 +43,7 @@ class FileZipRepresentation(NullZipRepresentation):
             filename = filename.decode('utf-8')
         yield (u'{0}/{1}'.format(path_prefix, filename),
                 self.context.getFile().getBlob().open())
+
+
+class ImageZipRepresentation(FileZipRepresentation):
+    adapts(IATImage, Interface)

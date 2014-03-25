@@ -4,21 +4,13 @@
 	xmlns:five="http://namespaces.zope.org/five"
 	xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
 	xmlns:i18n="http://namespaces.zope.org/i18n"
-	xmlns:zcml="http://namespaces.zope.org/zcml"
 	i18n_domain="ftw.zipexport">
 
 	<i18n:registerTranslations directory="locales" />
 
 	<include package=".browser" />
 	<include package=".upgrades" />
-
-	<adapter factory=".representations.general.NullZipRepresentation" />
-	<adapter factory=".representations.archetypes.FolderZipRepresentation" />
-	<adapter factory=".representations.archetypes.FileZipRepresentation" />
-
-	<configure zcml:condition="installed plone.app.dexterity">
-		<adapter factory=".representations.dexterity.DexterityItemZipRepresentation" />
-	</configure>
+  <include package=".representations" />
 
 	<browser:page
 		for="*"

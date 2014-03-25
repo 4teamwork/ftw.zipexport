@@ -5,6 +5,9 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- Include default AT image files.
+  [jone]
+
 - Added French translation by I. Anthenien.
   [lknoepfel]
 
