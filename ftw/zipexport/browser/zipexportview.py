@@ -37,17 +37,21 @@ class ZipSelectedExportView(BrowserView):
             if generator.is_empty:
                 messages = IStatusMessage(self.request)
                 messages.add(_("statmsg_content_not_supported",
-                    default=u"Zip export is not supported on the selected content."),
-                    type=u"error")
+                               default=u"Zip export is not supported on"
+                               u" the selected content."),
+                             type=u"error")
                 self.request.response.redirect(self.context.absolute_url())
                 return
 
             zip_file = generator.generate()
             filename = '%s.zip' % self.context.title
-            response.setHeader("Content-Disposition",
-                                 'inline; filename="%s"' % filename.encode('utf-8'))
+            response.setHeader(
+                "Content-Disposition",
+                'inline; filename="%s"' % filename.encode('utf-8'))
             response.setHeader("Content-type", "application/zip")
-            response.setHeader("Content-Length", os.stat(zip_file.name).st_size)
+            response.setHeader(
+                "Content-Length",
+                os.stat(zip_file.name).st_size)
 
             return filestream_iterator(zip_file.name, 'rb')
 

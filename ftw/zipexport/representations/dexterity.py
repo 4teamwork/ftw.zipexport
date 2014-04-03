@@ -23,7 +23,8 @@ class DexterityItemZipRepresentation(NullZipRepresentation):
             primary_adapter = getAdapter(self.context,
                                          interface=IPrimaryFieldInfo)
         except TypeError:
-            # if no primary field is available PrimaryFieldInfo Adapter throws TypeError
+            # if no primary field is available PrimaryFieldInfo
+            # Adapter throws TypeError
             return
 
         if INamedFileField.providedBy(primary_adapter.field):

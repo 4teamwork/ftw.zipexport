@@ -2,21 +2,22 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
 
-	<genericsetup:upgradeStep
-	    title="Add export restriction functionality"
-	    description=""
-	    source="1000"
-	    destination="1100"
-	    handler="ftw.zipexport.upgrades.to1100.ExportRestriction"
-	    profile="ftw.zipexport:default"
-	    />
+    <genericsetup:upgradeStep
+        title="Add export restriction functionality"
+        description=""
+        source="1000"
+        destination="1100"
+        handler="ftw.zipexport.upgrades.to1100.ExportRestriction"
+        profile="ftw.zipexport:default"
+        />
 
-	<genericsetup:registerProfile
-	    name="1100"
-	    title="ftw.zipexport: upgrade profile 1100"
-	    description=""
-	    directory="profiles/1100"
-	    for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-	    provides="Products.GenericSetup.interfaces.EXTENSION"
-	    />
+    <genericsetup:registerProfile
+        name="1100"
+        title="ftw.zipexport: upgrade profile 1100"
+        description=""
+        directory="profiles/1100"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
 </configure>
