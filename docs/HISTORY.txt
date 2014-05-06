@@ -5,6 +5,9 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- Corrected error message when no zip-exportable content is selected.
+  [lknoepfel]
+
 - Deny zipexport on unallowed content.
   [lknoepfel]
 

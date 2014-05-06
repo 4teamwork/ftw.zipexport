@@ -45,8 +45,7 @@ class ZipSelectedExportView(BrowserView):
             if generator.is_empty:
                 messages = IStatusMessage(self.request)
                 messages.add(_("statmsg_content_not_supported",
-                               default=u"Zip export is not supported on"
-                               u" the selected content."),
+                               default=u"No zip-exportable content selected."),
                              type=u"error")
                 self.request.response.redirect(self.context.absolute_url())
                 return

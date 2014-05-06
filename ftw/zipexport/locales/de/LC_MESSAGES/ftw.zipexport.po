@@ -23,6 +23,4 @@ msgstr "Exportiert Inhalte aus Plone als Zip-Archiv."
 #. Default: "Zip export is not supported on the selected content."
 #: ./ftw/zipexport/zipexportview.py:39
 msgid "statmsg_content_not_supported"
-msgstr "Der ausgewählte Inhalt unterstützt keinen Zip Export."
-
-
+msgstr "Es konnte keine Zip-Datei erstellt werden, da kein Inhalt gefunden wurde, welcher als Zip-Datei exportiert werden kann."
