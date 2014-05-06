@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-09-04 14:03+0000\n"
+"POT-Creation-Date: 2014-05-06 10:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -10,19 +10,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: DOMAIN\n"
 
 #: ./ftw/zipexport/profiles/default/actions.xml
+#: ./ftw/zipexport/profiles/documentaction/actions.xml
 msgid "Export as Zip"
 msgstr "Als Zip-Datei exportieren"
 
 #: ./ftw/zipexport/profiles/default/actions.xml
+#: ./ftw/zipexport/profiles/documentaction/actions.xml
 msgid "Export data from plone into a zip archive."
 msgstr "Exportiert Inhalte aus Plone als Zip-Archiv."
 
 #. Default: "Zip export is not supported on the selected content."
-#: ./ftw/zipexport/zipexportview.py:39
+#: ./ftw/zipexport/browser/zipexportview.py:51
 msgid "statmsg_content_not_supported"
 msgstr "Der ausgewählte Inhalt unterstützt keinen Zip Export."
 
-
+#. Default: "Zip export is not allowed on the selected content."
+#: ./ftw/zipexport/browser/zipexportview.py:33
+msgid "statmsg_export_not_allowed"
+msgstr "Der Zip Export ist auf dem ausgewählten Inhalt nicht erlaubt."

@@ -24,6 +24,20 @@ class ZipSelectedExportView(BrowserView):
     def zip_selected(self, objects):
         response = self.request.response
 
+        # check if zipexport is allowed on this context
+        for obj in objects:
+            enabled_view = getMultiAdapter((obj, self.request),
+                                           name=u'zipexport-enabled')
+
+            if not enabled_view.zipexport_enabled():
+                messages = IStatusMessage(self.request)
+                messages.add(_("statmsg_export_not_allowed",
+                               default=u"Zip export is not allowed on"
+                               u" the selected content."),
+                             type=u"error")
+                self.request.response.redirect(self.context.absolute_url())
+                return
+
         with ZipGenerator() as generator:
 
             for obj in objects:
