@@ -3,6 +3,7 @@ from ftw.zipexport.generation import ZipGenerator
 from ftw.zipexport.interfaces import IZipRepresentation
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
+from zExceptions import NotFound
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
 from ZPublisher.Iterators import filestream_iterator
@@ -25,18 +26,11 @@ class ZipSelectedExportView(BrowserView):
         response = self.request.response
 
         # check if zipexport is allowed on this context
-        for obj in objects:
-            enabled_view = getMultiAdapter((obj, self.request),
-                                           name=u'zipexport-enabled')
+        enabled_view = getMultiAdapter((self.context, self.request),
+                                       name=u'zipexport-enabled')
 
-            if not enabled_view.zipexport_enabled():
-                messages = IStatusMessage(self.request)
-                messages.add(_("statmsg_export_not_allowed",
-                               default=u"Zip export is not allowed on"
-                               u" the selected content."),
-                             type=u"error")
-                self.request.response.redirect(self.context.absolute_url())
-                return
+        if not enabled_view.zipexport_enabled():
+            raise NotFound()
 
         with ZipGenerator() as generator:
 

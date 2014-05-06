@@ -6,6 +6,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.registry.interfaces import IRegistry
 from plone.testing.z2 import Browser
 from unittest2 import TestCase
+from zExceptions import NotFound
 from zope.component import getUtility
 from ZPublisher.Iterators import filestream_iterator
 
@@ -48,9 +49,7 @@ class TestExportView(TestCase):
         reg_proxy.enabled_dotted_name = u"OFS.interfaces.IFolder"
 
         enabled_view = self.file.restrictedTraverse("@@zipexport-enabled")
-
         self.assertFalse(enabled_view.zipexport_enabled())
 
         export_view = self.file.restrictedTraverse("zip_export")
-
-        self.assertIsNone(export_view())
+        self.assertRaises(NotFound, export_view)
