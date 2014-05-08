@@ -37,7 +37,7 @@ class TestExportView(TestCase):
     def test_export_is_disabled_when_non_existent_interface_is_configured(self):
         registry = getUtility(IRegistry)
         reg_proxy = registry.forInterface(IZipExportSettings)
-        reg_proxy.enabled_dotted_name = u"some.other.interface"
+        reg_proxy.enabled_dotted_names = [u"some.non.existent.interface"]
 
         enabled_view = self.file.restrictedTraverse("@@zipexport-enabled")
 
@@ -46,10 +46,33 @@ class TestExportView(TestCase):
     def test_export_is_disabled_when_unprovided_interface_is_configured(self):
         registry = getUtility(IRegistry)
         reg_proxy = registry.forInterface(IZipExportSettings)
-        reg_proxy.enabled_dotted_name = u"OFS.interfaces.IFolder"
+        reg_proxy.enabled_dotted_names = [u"OFS.interfaces.IFolder"]
 
         enabled_view = self.file.restrictedTraverse("@@zipexport-enabled")
         self.assertFalse(enabled_view.zipexport_enabled())
 
         export_view = self.file.restrictedTraverse("zip_export")
         self.assertRaises(NotFound, export_view)
+
+
+    def test_export_with_multiple_configured_interfaces(self):
+        registry = getUtility(IRegistry)
+        reg_proxy = registry.forInterface(IZipExportSettings)
+        reg_proxy.enabled_dotted_names = [
+            u"OFS.interfaces.IFolder",
+            u"Products.ATContentTypes.interfaces.file.IATFile"]
+
+        export = self.file.restrictedTraverse("@@zipexport-enabled")
+
+        self.assertTrue(export.zipexport_enabled())
+
+    def test_export_with_multiple_and_nonexistent_interfaces(self):
+        registry = getUtility(IRegistry)
+        reg_proxy = registry.forInterface(IZipExportSettings)
+        reg_proxy.enabled_dotted_names = [
+            u"some.non.existent.interface",
+            u"Products.ATContentTypes.interfaces.file.IATFile"]
+
+        export = self.file.restrictedTraverse("@@zipexport-enabled")
+
+        self.assertTrue(export.zipexport_enabled())

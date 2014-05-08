@@ -1,0 +1,5 @@
+<registry>
+    <records interface="ftw.zipexport.interfaces.IZipExportSettings">
+        <value key="enabled_dotted_names"></value>
+    </records>
+</registry>
