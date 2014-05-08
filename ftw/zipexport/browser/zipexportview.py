@@ -3,6 +3,7 @@ from ftw.zipexport.generation import ZipGenerator
 from ftw.zipexport.interfaces import IZipRepresentation
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
+from zExceptions import NotFound
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
 from ZPublisher.Iterators import filestream_iterator
@@ -23,6 +24,13 @@ class ZipSelectedExportView(BrowserView):
 
     def zip_selected(self, objects):
         response = self.request.response
+
+        # check if zipexport is allowed on this context
+        enabled_view = getMultiAdapter((self.context, self.request),
+                                       name=u'zipexport-enabled')
+
+        if not enabled_view.zipexport_enabled():
+            raise NotFound()
 
         with ZipGenerator() as generator:
 

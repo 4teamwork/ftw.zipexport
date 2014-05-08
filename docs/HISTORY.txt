@@ -5,6 +5,9 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- Deny zipexport on unallowed content.
+  [lknoepfel]
+
 - Include default AT image files.
   [jone]
 
