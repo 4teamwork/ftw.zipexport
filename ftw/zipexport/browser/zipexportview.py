@@ -10,6 +10,11 @@ from ZPublisher.Iterators import filestream_iterator
 import os
 
 
+class NoExportableContent(Exception):
+    """Raised when no zip exportable content is requested.
+    """
+
+
 class ZipSelectedExportView(BrowserView):
 
     def __init__(self, *args, **kwargs):
@@ -20,7 +25,14 @@ class ZipSelectedExportView(BrowserView):
         paths = self.request.get('paths', [])
         objects = [portal.restrictedTraverse(path) for path in paths]
 
-        return self.zip_selected(objects)
+        try:
+            return self.zip_selected(objects)
+        except NoExportableContent:
+            messages = IStatusMessage(self.request)
+            messages.add(_("statmsg_no_exportable_content_selected",
+                           default=u"No zip-exportable content selected."),
+                         type=u"error")
+            return self.request.response.redirect(self.context.absolute_url())
 
     def zip_selected(self, objects):
         response = self.request.response
@@ -43,12 +55,7 @@ class ZipSelectedExportView(BrowserView):
 
             # check if zip has files
             if generator.is_empty:
-                messages = IStatusMessage(self.request)
-                messages.add(_("statmsg_content_not_supported",
-                               default=u"No zip-exportable content selected."),
-                             type=u"error")
-                self.request.response.redirect(self.context.absolute_url())
-                return
+                raise NoExportableContent()
 
             zip_file = generator.generate()
             filename = '%s.zip' % self.context.title
@@ -69,4 +76,12 @@ class ZipExportView(ZipSelectedExportView):
         super(ZipExportView, self).__init__(*args, **kwargs)
 
     def __call__(self):
-        return self.zip_selected([self.context])
+        try:
+            return self.zip_selected([self.context])
+        except NoExportableContent:
+            messages = IStatusMessage(self.request)
+            messages.add(_("statmsg_no_exportable_content_found",
+                           default=u"No zip-exportable content "
+                           "has been found."),
+                         type=u"error")
+            return self.request.response.redirect(self.context.absolute_url())
