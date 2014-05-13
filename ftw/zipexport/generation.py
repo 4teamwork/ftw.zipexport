@@ -1,5 +1,6 @@
 from ftw.zipexport.zipfilestream import ZipFile
 from tempfile import NamedTemporaryFile
+from zipfile import LargeZipFile
 import os
 import sys
 
@@ -33,8 +34,8 @@ class ZipGenerator(object):
         try:
             self.zip_file.writefile(file_pointer, file_path)
         except RuntimeError:
-            raise StandardError("ZipFile already generated/closed.\
-                Please add all files before generating.")
+            raise StandardError("ZipFile already generated/closed. "
+                                "Please add all files before generating.")
         self.empty = False
 
     def generate_unique_filepath(self, file_path):

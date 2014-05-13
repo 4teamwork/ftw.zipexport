@@ -7,6 +7,7 @@ from zExceptions import NotFound
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
 from ZPublisher.Iterators import filestream_iterator
+from zipfile import LargeZipFile
 import os
 
 
@@ -51,7 +52,16 @@ class ZipSelectedExportView(BrowserView):
                                         interface=IZipRepresentation)
 
                 for path, pointer in repre.get_files():
-                    generator.add_file(path, pointer)
+                    try:
+                        generator.add_file(path, pointer)
+                    except LargeZipFile:
+                        messages = IStatusMessage(self.request)
+                        messages.add(_("statmsg_zip_file_too_big",
+                                       default=u"Content is too big "
+                                       "to export"),
+                                     type=u"error")
+                        return self.request.response.redirect(
+                            self.context.absolute_url())
 
             # check if zip has files
             if generator.is_empty:
