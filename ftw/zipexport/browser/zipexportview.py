@@ -18,9 +18,6 @@ class NoExportableContent(Exception):
 
 class ZipSelectedExportView(BrowserView):
 
-    def __init__(self, *args, **kwargs):
-        super(ZipSelectedExportView, self).__init__(*args, **kwargs)
-
     def __call__(self):
         portal = getSite()
         paths = self.request.get('paths', [])
@@ -81,9 +78,6 @@ class ZipSelectedExportView(BrowserView):
 
 
 class ZipExportView(ZipSelectedExportView):
-
-    def __init__(self, *args, **kwargs):
-        super(ZipExportView, self).__init__(*args, **kwargs)
 
     def __call__(self):
         try:
