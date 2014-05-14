@@ -14,10 +14,18 @@ class ZipExportEnabled(BrowserView):
         """ Checks if context is marked as zip exportable.
         """
         registry = getUtility(IRegistry)
-        reg_proxy = registry.forInterface(IZipExportSettings)
         try:
-            interface_class = resolve(reg_proxy.enabled_dotted_name)
-        except ImportError:
+            reg_proxy = registry.forInterface(IZipExportSettings)
+        except KeyError:
             return False
 
-        return interface_class and interface_class.providedBy(self.context)
+        for dotted_name in reg_proxy.enabled_dotted_names:
+            try:
+                interface_class = resolve(dotted_name)
+            except ImportError:
+                continue
+
+            if interface_class and interface_class.providedBy(self.context):
+                return True
+
+        return False

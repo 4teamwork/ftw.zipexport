@@ -5,6 +5,9 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- Added option to select multiple interfaces on which the export is available.
+  [lknoepfel]
+
 - Added error message when the content is too big to zip.
   This happens when the ZIP64 isn't available and the content is bigger than 4GB.
   [lknoepfel]
