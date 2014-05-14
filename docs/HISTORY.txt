@@ -5,6 +5,13 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- Added error message when the content is too big to zip.
+  This happens when the ZIP64 isn't available and the content is bigger than 4GB.
+  [lknoepfel]
+
+- Corrected error message when no zip-exportable content is selected.
+  [lknoepfel]
+
 - Deny zipexport on unallowed content.
   [lknoepfel]
 

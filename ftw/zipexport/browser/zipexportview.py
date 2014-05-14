@@ -7,20 +7,30 @@ from zExceptions import NotFound
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
 from ZPublisher.Iterators import filestream_iterator
+from zipfile import LargeZipFile
 import os
 
 
-class ZipSelectedExportView(BrowserView):
+class NoExportableContent(Exception):
+    """Raised when no zip exportable content is requested.
+    """
 
-    def __init__(self, *args, **kwargs):
-        super(ZipSelectedExportView, self).__init__(*args, **kwargs)
+
+class ZipSelectedExportView(BrowserView):
 
     def __call__(self):
         portal = getSite()
         paths = self.request.get('paths', [])
         objects = [portal.restrictedTraverse(path) for path in paths]
 
-        return self.zip_selected(objects)
+        try:
+            return self.zip_selected(objects)
+        except NoExportableContent:
+            messages = IStatusMessage(self.request)
+            messages.add(_("statmsg_no_exportable_content_selected",
+                           default=u"No zip-exportable content selected."),
+                         type=u"error")
+            return self.request.response.redirect(self.context.absolute_url())
 
     def zip_selected(self, objects):
         response = self.request.response
@@ -39,17 +49,20 @@ class ZipSelectedExportView(BrowserView):
                                         interface=IZipRepresentation)
 
                 for path, pointer in repre.get_files():
-                    generator.add_file(path, pointer)
+                    try:
+                        generator.add_file(path, pointer)
+                    except LargeZipFile:
+                        messages = IStatusMessage(self.request)
+                        messages.add(_("statmsg_zip_file_too_big",
+                                       default=u"Content is too big "
+                                       "to export"),
+                                     type=u"error")
+                        return self.request.response.redirect(
+                            self.context.absolute_url())
 
             # check if zip has files
             if generator.is_empty:
-                messages = IStatusMessage(self.request)
-                messages.add(_("statmsg_content_not_supported",
-                               default=u"Zip export is not supported on"
-                               u" the selected content."),
-                             type=u"error")
-                self.request.response.redirect(self.context.absolute_url())
-                return
+                raise NoExportableContent()
 
             zip_file = generator.generate()
             filename = '%s.zip' % self.context.title
@@ -66,8 +79,13 @@ class ZipSelectedExportView(BrowserView):
 
 class ZipExportView(ZipSelectedExportView):
 
-    def __init__(self, *args, **kwargs):
-        super(ZipExportView, self).__init__(*args, **kwargs)
-
     def __call__(self):
-        return self.zip_selected([self.context])
+        try:
+            return self.zip_selected([self.context])
+        except NoExportableContent:
+            messages = IStatusMessage(self.request)
+            messages.add(_("statmsg_no_exportable_content_found",
+                           default=u"No zip-exportable content "
+                           "has been found."),
+                         type=u"error")
+            return self.request.response.redirect(self.context.absolute_url())
