@@ -12,6 +12,8 @@ from plone.dexterity.interfaces import IDexterityItem
 from plone.directives import form
 from plone.namedfile import field
 from plone.namedfile.file import NamedBlobFile
+from plone.rfc822.interfaces import IPrimaryField
+from Products.CMFPlone.utils import getFSVersionTuple
 from unittest2 import TestCase
 from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
@@ -24,6 +26,11 @@ class INoteSchemaPrimary(form.Schema):
         required=False,
         )
 alsoProvides(INoteSchemaPrimary, IDexterityItem)
+
+
+if getFSVersionTuple() < (4, 3):
+    # Marshalling was not triggered in Plone 4.2 without grokking.
+    alsoProvides(INoteSchemaPrimary['blob'], IPrimaryField)
 
 
 class IInvitationSchemaNonPrimary(form.Schema):
