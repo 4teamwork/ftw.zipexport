@@ -7,6 +7,7 @@ from zope.component import adapts
 from zope.component import getMultiAdapter
 from zope.interface import Interface
 from zope.interface import implements
+from StringIO import StringIO
 
 
 class FolderZipRepresentation(NullZipRepresentation):
@@ -42,7 +43,16 @@ class FileZipRepresentation(NullZipRepresentation):
         if not isinstance(filename, unicode):
             filename = filename.decode('utf-8')
         yield (u'{0}/{1}'.format(path_prefix, filename),
-                self.context.getFile().getBlob().open())
+               self.get_file_open_descriptor())
+
+    def get_file_open_descriptor(self):
+        file_ = self.context.getFile()
+        if hasattr(file_, 'getBlob'):
+            return file_.getBlob().open()
+        else:
+            # For example this is the case if `self.context` is an instance
+            # of `izug.ticketbox.content.attachment.TicketAttachment`.
+            return StringIO(file_.data)
 
 
 class ImageZipRepresentation(FileZipRepresentation):
