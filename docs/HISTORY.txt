@@ -5,7 +5,9 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed a bug in the file export which occurred if the file to be exported
+  did not have a blob but an OFS file.
+  [mbaechtold]
 
 
 1.2.1 (2014-06-05)
