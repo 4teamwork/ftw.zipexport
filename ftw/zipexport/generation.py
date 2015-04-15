@@ -1,8 +1,13 @@
+from exceptions import IOError
 from ftw.zipexport.zipfilestream import ZipFile
 from tempfile import NamedTemporaryFile
-from zipfile import LargeZipFile
 import os
 import sys
+
+
+class NotEnoughSpaceOnDiskException(IOError):
+    """ Thrown when there is not enough space on disk to create the zip file.
+    """
 
 
 class ZipGenerator(object):
@@ -31,6 +36,9 @@ class ZipGenerator(object):
 
         file_path = self.generate_unique_filepath(file_path)
 
+        if not self.check_disk_has_space_for_file(file_pointer):
+            raise NotEnoughSpaceOnDiskException()
+
         try:
             self.zip_file.writefile(file_pointer, file_path)
         except RuntimeError:
@@ -49,6 +57,15 @@ class ZipGenerator(object):
             new_filename = os.path.join(path, '%s (%d)%s' % (name, i, ext))
             if new_filename not in self.zip_file.namelist():
                 return new_filename
+
+    def check_disk_has_space_for_file(self, file_d):
+        disk_stat = os.statvfs(self.tmp_file.name)
+        bytes_free = disk_stat.f_frsize * disk_stat.f_bavail
+        position = file_d.tell()
+        file_d.seek(0, os.SEEK_END)
+        file_size = file_d.tell() - position
+        file_d.seek(position)
+        return file_size < bytes_free
 
     @property
     def is_empty(self):
