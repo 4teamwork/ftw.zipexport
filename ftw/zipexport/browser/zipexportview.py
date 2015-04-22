@@ -1,13 +1,14 @@
 from ftw.zipexport import _
+from ftw.zipexport.generation import NotEnoughSpaceOnDiskException
 from ftw.zipexport.generation import ZipGenerator
 from ftw.zipexport.interfaces import IZipRepresentation
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from zExceptions import NotFound
+from zipfile import LargeZipFile
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
 from ZPublisher.Iterators import filestream_iterator
-from zipfile import LargeZipFile
 import os
 
 
@@ -29,6 +30,13 @@ class ZipSelectedExportView(BrowserView):
             messages = IStatusMessage(self.request)
             messages.add(_("statmsg_no_exportable_content_selected",
                            default=u"No zip-exportable content selected."),
+                         type=u"error")
+            return self.request.response.redirect(self.context.absolute_url())
+        except NotEnoughSpaceOnDiskException:
+            messages = IStatusMessage(self.request)
+            messages.add(_("statmsg_not_enough_space_on_disk",
+                           default=u"There is not enough free space on the "
+                           "disk to create the zip-file."),
                          type=u"error")
             return self.request.response.redirect(self.context.absolute_url())
 
@@ -87,5 +95,12 @@ class ZipExportView(ZipSelectedExportView):
             messages.add(_("statmsg_no_exportable_content_found",
                            default=u"No zip-exportable content "
                            "has been found."),
+                         type=u"error")
+            return self.request.response.redirect(self.context.absolute_url())
+        except NotEnoughSpaceOnDiskException:
+            messages = IStatusMessage(self.request)
+            messages.add(_("statmsg_not_enough_space_on_disk",
+                           default=u"There is not enough free space on the "
+                           "disk to create the zip-file."),
                          type=u"error")
             return self.request.response.redirect(self.context.absolute_url())
