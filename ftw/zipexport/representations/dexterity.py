@@ -3,6 +3,7 @@ from ftw.zipexport.representations.general import NullZipRepresentation
 from plone.dexterity.interfaces import IDexterityItem
 from plone.namedfile.interfaces import INamedFileField
 from plone.rfc822.interfaces import IPrimaryFieldInfo
+from Products.CMFPlone.utils import safe_unicode
 from StringIO import StringIO
 from zope.component import adapts
 from zope.component import getAdapter
@@ -33,7 +34,8 @@ class DexterityItemZipRepresentation(NullZipRepresentation):
                 yield self.get_file_tuple(named_file, path_prefix)
 
     def get_file_tuple(self, named_file, path_prefix):
-        path = u'{0}/{1}'.format(path_prefix, named_file.filename)
+        path = u'{0}/{1}'.format(safe_unicode(path_prefix),
+                                 safe_unicode(named_file.filename))
         if HAVE_BLOBS and INamedBlobFile.providedBy(named_file):
             return (path, named_file.open())
         else:
