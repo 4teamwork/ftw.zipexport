@@ -5,6 +5,9 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
+- Handle path encoding in ZIP.
+  [jone]
+
 - Added check if fs has enough space to create the zip file.
   [lknoepfel]
 
