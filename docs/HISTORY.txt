@@ -5,6 +5,9 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
+- Normalize all paths added to the ZIP file.
+  [jone]
+
 - Handle path encoding in ZIP.
   [jone]
 
