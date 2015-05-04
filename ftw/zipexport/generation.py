@@ -1,5 +1,7 @@
 from exceptions import IOError
+from ftw.zipexport.utils import normalize_path
 from ftw.zipexport.zipfilestream import ZipFile
+from Products.CMFPlone.utils import safe_unicode
 from tempfile import NamedTemporaryFile
 import os
 import sys
@@ -16,8 +18,9 @@ class ZipGenerator(object):
     files are deleted after usage.
     """
 
-    def __init__(self):
+    def __init__(self, path_normalizer=normalize_path):
         self.empty = True
+        self.path_normalizer = path_normalizer
 
     def __enter__(self):
         self.tmp_file = NamedTemporaryFile(prefix="plone_zipexport_")
@@ -31,6 +34,11 @@ class ZipGenerator(object):
         self.tmp_file.__exit__(exc_type, exc_value, traceback)
 
     def add_file(self, file_path, file_pointer):
+        if self.path_normalizer is not None:
+            file_path = self.path_normalizer(file_path)
+        else:
+            file_path = safe_unicode(file_path)
+
         # paths in zipfile do not have a / at the root
         file_path = file_path.strip('/')
 

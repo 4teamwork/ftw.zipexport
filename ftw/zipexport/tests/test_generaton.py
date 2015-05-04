@@ -4,6 +4,7 @@ from ftw.zipexport.interfaces import IZipRepresentation
 from ftw.zipexport.testing import FTW_ZIPEXPORT_INTEGRATION_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from StringIO import StringIO
 from unittest2 import TestCase
 from zope.component import getMultiAdapter
 import os
@@ -85,3 +86,19 @@ class TestZipGeneration(TestCase):
             self.assertEquals(
                 [u'file.txt', u'file (2).txt', u'file (3).txt'],
                 in_zip_file_list)
+
+    def test_filenames_are_normalized(self):
+        with ZipGenerator() as zipgenerator:
+            zipgenerator.add_file('F\xc3\xbc\xc3\xb6 B\xc3\xa4r.tar.gz', StringIO())
+            self.assertItemsEqual(
+                [u'Fuo Bar.tar.gz'],
+                zipgenerator.zip_file.namelist())
+
+    def test_normalization_can_be_disabled(self):
+        with ZipGenerator() as zipgenerator:
+            zipgenerator.add_file('(B\xc3\xa4r).txt', StringIO())
+            self.assertItemsEqual([u'Bar.txt'], zipgenerator.zip_file.namelist())
+
+        with ZipGenerator(path_normalizer=None) as zipgenerator:
+            zipgenerator.add_file('(B\xc3\xa4r).txt', StringIO())
+            self.assertItemsEqual([u'(B\xe4r).txt'], zipgenerator.zip_file.namelist())
