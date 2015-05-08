@@ -129,8 +129,8 @@ Nice to have
 Links
 =====
 
-- Package repository: https://github.com/4teamwork/ftw.zipexport
-- Issue tracker: https://github.com/4teamwork/ftw.zipexport/issues
+- Github: https://github.com/4teamwork/ftw.zipexport
+- Issues: https://github.com/4teamwork/ftw.zipexport/issues
 - Continuous integration: https://jenkins.4teamwork.ch/view/All/search/?q=ftw.zipexport
 
 Copyright
