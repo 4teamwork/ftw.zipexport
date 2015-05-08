@@ -139,7 +139,3 @@ Copyright
 This package is copyright by `4teamwork <http://www.4teamwork.ch/>`_.
 
 ``ftw.zipexport`` is licensed under GNU General Public License, version 2.
-
-.. image:: https://cruel-carlota.pagodabox.com/8b048ecd61dba82375e5662b30e6f0d6
-   :alt: githalytics.com
-   :target: http://githalytics.com/4teamwork/ftw.zipexport
