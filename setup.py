@@ -12,6 +12,7 @@ tests_require = [
     'plone.app.dexterity',
     'plone.namedfile',
     'z3c.blobfile',
+    'unittest2',
     ]
 
 extras_require = {
