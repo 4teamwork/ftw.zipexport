@@ -40,7 +40,7 @@ class FileZipRepresentation(NullZipRepresentation):
     adapts(IATFile, Interface)
 
     def get_files(self, path_prefix=u"", recursive=True, toplevel=True):
-        filename = safe_unicode(self.context.getFile().getFilename())
+        filename = safe_unicode(self.context.getFile().getFilename() or self.context.id)
         yield (u'{0}/{1}'.format(safe_unicode(path_prefix), filename),
                self.get_file_open_descriptor())
 
