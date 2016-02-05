@@ -2,6 +2,7 @@ from ftw.zipexport import _
 from ftw.zipexport.generation import NotEnoughSpaceOnDiskException
 from ftw.zipexport.generation import ZipGenerator
 from ftw.zipexport.interfaces import IZipRepresentation
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from zExceptions import NotFound
@@ -76,7 +77,7 @@ class ZipSelectedExportView(BrowserView):
             filename = '%s.zip' % self.context.title
             response.setHeader(
                 "Content-Disposition",
-                'inline; filename="%s"' % filename.encode('utf-8'))
+                'inline; filename="%s"' % safe_unicode(filename).encode('utf-8'))
             response.setHeader("Content-type", "application/zip")
             response.setHeader(
                 "Content-Length",
