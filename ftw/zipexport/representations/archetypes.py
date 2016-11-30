@@ -27,11 +27,11 @@ class FolderZipRepresentation(NullZipRepresentation):
 
         for obj in content:
             adapt = getMultiAdapter((obj, self.request),
-                                 interface=IZipRepresentation)
+                                    interface=IZipRepresentation)
 
             for item in adapt.get_files(path_prefix=path_prefix,
-                                    recursive=recursive,
-                                    toplevel=False):
+                                        recursive=recursive,
+                                        toplevel=False):
                 yield item
 
 
@@ -40,7 +40,8 @@ class FileZipRepresentation(NullZipRepresentation):
     adapts(IATFile, Interface)
 
     def get_files(self, path_prefix=u"", recursive=True, toplevel=True):
-        filename = safe_unicode(self.context.getFile().getFilename() or self.context.id)
+        filename = safe_unicode(self.context.getFile().getFilename()
+                                or self.context.id)
         yield (u'{0}/{1}'.format(safe_unicode(path_prefix), filename),
                self.get_file_open_descriptor())
 

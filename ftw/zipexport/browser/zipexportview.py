@@ -77,7 +77,8 @@ class ZipSelectedExportView(BrowserView):
             filename = '%s.zip' % self.context.title
             response.setHeader(
                 "Content-Disposition",
-                'inline; filename="%s"' % safe_unicode(filename).encode('utf-8'))
+                'inline; filename="{0}"'.format(
+                    safe_unicode(filename).encode('utf-8')))
             response.setHeader("Content-type", "application/zip")
             response.setHeader(
                 "Content-Length",
