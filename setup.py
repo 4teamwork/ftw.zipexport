@@ -51,6 +51,7 @@ setup(name='ftw.zipexport',
         'Products.CMFCore',
         'setuptools',
         'ftw.upgrade',
+        'path.py<9.0'
         # -*- Extra requirements: -*-
         ],
       tests_require=tests_require,
