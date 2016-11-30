@@ -1,4 +1,5 @@
 from zope import schema
+from zope.component.interfaces import IObjectEvent
 from zope.interface import Interface
 
 
@@ -20,3 +21,11 @@ class IZipRepresentation(Interface):
         file should show up in the zip. Second the data as eather a file or
         a stream.
         """
+
+
+class IContainerZippedEvent(IObjectEvent):
+    pass
+
+
+class IItemZippedEvent(IObjectEvent):
+    pass
