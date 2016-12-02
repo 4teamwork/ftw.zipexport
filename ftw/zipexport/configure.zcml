@@ -3,11 +3,13 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:upgrade-step="http://namespaces.zope.org/ftw.upgrade"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="ftw.zipexport">
 
     <i18n:registerTranslations directory="locales" />
 
+    <include package="ftw.upgrade" file="meta.zcml" />
     <include package=".browser" />
     <include package=".upgrades" />
     <include package=".representations" />
@@ -25,5 +27,10 @@
         directory="profiles/documentaction"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
+
+    <upgrade-step:directory
+      profile="ftw.zipexport:default"
+      directory="./upgrades"
+      />
 
 </configure>

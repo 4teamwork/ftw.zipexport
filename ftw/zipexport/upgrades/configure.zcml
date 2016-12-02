@@ -38,4 +38,8 @@
         profile="ftw.zipexport:default"
         />
 
+    <!-- Do not add more upgrade steps here.
+         Please use ftw.upgrade.
+         /-->
+
 </configure>

@@ -1,3 +1,4 @@
+from ftw.zipexport.events import ItemZippedEvent
 from ftw.zipexport.interfaces import IZipRepresentation
 from ftw.zipexport.representations.general import NullZipRepresentation
 from plone.dexterity.interfaces import IDexterityItem
@@ -7,6 +8,7 @@ from Products.CMFPlone.utils import safe_unicode
 from StringIO import StringIO
 from zope.component import adapts
 from zope.component import getAdapter
+from zope.event import notify
 from zope.interface import implements
 from zope.interface import Interface
 
@@ -31,6 +33,7 @@ class DexterityItemZipRepresentation(NullZipRepresentation):
         if INamedFileField.providedBy(primary_adapter.field):
             named_file = primary_adapter.value
             if primary_adapter.value:
+                notify(ItemZippedEvent(self.context))
                 yield self.get_file_tuple(named_file, path_prefix)
 
     def get_file_tuple(self, named_file, path_prefix):

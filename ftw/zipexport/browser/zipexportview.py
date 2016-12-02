@@ -1,4 +1,5 @@
 from ftw.zipexport import _
+from ftw.zipexport.events import ContainerZippedEvent
 from ftw.zipexport.generation import NotEnoughSpaceOnDiskException
 from ftw.zipexport.generation import ZipGenerator
 from ftw.zipexport.interfaces import IZipRepresentation
@@ -9,6 +10,7 @@ from zExceptions import NotFound
 from zipfile import LargeZipFile
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
+from zope.event import notify
 from ZPublisher.Iterators import filestream_iterator
 import os
 
@@ -74,10 +76,16 @@ class ZipSelectedExportView(BrowserView):
                 raise NoExportableContent()
 
             zip_file = generator.generate()
+
+            # Trigger the per container event
+            notify(ContainerZippedEvent(self.context))
+
+            # Generate response file
             filename = '%s.zip' % self.context.title
             response.setHeader(
                 "Content-Disposition",
-                'inline; filename="%s"' % safe_unicode(filename).encode('utf-8'))
+                'inline; filename="{0}"'.format(
+                    safe_unicode(filename).encode('utf-8')))
             response.setHeader("Content-type", "application/zip")
             response.setHeader(
                 "Content-Length",
