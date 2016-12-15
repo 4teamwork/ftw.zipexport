@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = '1.4.1.dev0'
+version = '1.5.0.dev0'
 
 maintainer = 'Lukas Knoepfel'
 
@@ -51,7 +51,7 @@ setup(name='ftw.zipexport',
         'Products.CMFCore',
         'setuptools',
         'ftw.upgrade',
-        'path.py<9.0'
+        'path.py'
         # -*- Extra requirements: -*-
         ],
       tests_require=tests_require,
