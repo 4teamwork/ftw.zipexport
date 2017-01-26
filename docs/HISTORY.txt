@@ -17,6 +17,9 @@ Changelog
 1.4.0 (2016-12-12)
 ------------------
 
+- Allow write-on-read for zip export requests with plone.protect > 3.0
+  [Rotonen]
+
 - Add events for the ZIP exports
   [Rotonen]
 

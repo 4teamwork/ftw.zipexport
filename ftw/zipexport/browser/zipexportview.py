@@ -11,8 +11,10 @@ from zipfile import LargeZipFile
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
 from zope.event import notify
+from zope.interface import alsoProvides
 from ZPublisher.Iterators import filestream_iterator
 import os
+import plone.protect.interfaces
 
 
 class NoExportableContent(Exception):
@@ -23,6 +25,9 @@ class NoExportableContent(Exception):
 class ZipSelectedExportView(BrowserView):
 
     def __call__(self):
+        if 'IDisableCSRFProtection' in dir(plone.protect.interfaces):
+            alsoProvides(self.request,
+                         plone.protect.interfaces.IDisableCSRFProtection)
         portal = getSite()
         paths = self.request.get('paths', [])
         objects = [portal.restrictedTraverse(path) for path in paths]
@@ -97,6 +102,9 @@ class ZipSelectedExportView(BrowserView):
 class ZipExportView(ZipSelectedExportView):
 
     def __call__(self):
+        if 'IDisableCSRFProtection' in dir(plone.protect.interfaces):
+            alsoProvides(self.request,
+                         plone.protect.interfaces.IDisableCSRFProtection)
         try:
             return self.zip_selected([self.context])
         except NoExportableContent:
