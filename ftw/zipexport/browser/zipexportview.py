@@ -2,13 +2,16 @@ from ftw.zipexport import _
 from ftw.zipexport.events import ContainerZippedEvent
 from ftw.zipexport.generation import NotEnoughSpaceOnDiskException
 from ftw.zipexport.generation import ZipGenerator
+from ftw.zipexport.interfaces import IZipExportSettings
 from ftw.zipexport.interfaces import IZipRepresentation
+from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from zExceptions import NotFound
 from zipfile import LargeZipFile
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.event import notify
 from ZPublisher.Iterators import filestream_iterator
@@ -45,6 +48,7 @@ class ZipSelectedExportView(BrowserView):
 
     def zip_selected(self, objects):
         response = self.request.response
+        settings = getUtility(IRegistry).forInterface(IZipExportSettings)
 
         # check if zipexport is allowed on this context
         enabled_view = getMultiAdapter((self.context, self.request),
@@ -60,6 +64,11 @@ class ZipSelectedExportView(BrowserView):
                                         interface=IZipRepresentation)
 
                 for path, pointer in repre.get_files():
+                    if not pointer:
+                        if settings.include_empty_folders:
+                            generator.add_folder(path)
+                        continue
+
                     try:
                         generator.add_file(path, pointer)
                     except LargeZipFile:

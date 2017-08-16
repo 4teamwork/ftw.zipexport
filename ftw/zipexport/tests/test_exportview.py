@@ -1,11 +1,14 @@
 from ftw.builder import Builder, create
+from ftw.zipexport.interfaces import IZipExportSettings
 from ftw.zipexport.testing import FTW_ZIPEXPORT_FUNCTIONAL_TESTING
 from ftw.zipexport.zipfilestream import ZipFile
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.registry.interfaces import IRegistry
 from plone.testing.z2 import Browser
 from StringIO import StringIO
 from unittest2 import TestCase
+from zope.component import getUtility
 import transaction
 
 
@@ -45,6 +48,10 @@ class TestExportView(TestCase):
                                 "moretest.data")
                             .within(self.folder))
 
+        self.emptyfolder = create(Builder("folder")
+                                  .titled(u"Empty f\xf6lder")
+                                  .within(self.superfolder))
+
         transaction.commit()
 
     def test_zip_single_file_download(self):
@@ -63,7 +70,7 @@ class TestExportView(TestCase):
         self.browser.open("%s/zip_export" % self.superfolder.absolute_url())
         zipfile = ZipFile(StringIO(self.browser.contents), 'r')
         self.assertEquals(
-            ['SUPERFILE', 'Folder/testdata.txt', 'Folder/moretest.data'],
+            ['SUPERFILE', 'Folder/testdata.txt', 'Folder/moretest.data', u'Empty f\xf6lder/'],
             zipfile.namelist())
 
     def test_zip_selected_files(self):
@@ -74,4 +81,16 @@ class TestExportView(TestCase):
         zipfile = ZipFile(StringIO(self.browser.contents), 'r')
         self.assertEquals(
             ['testdata.txt', 'moretest.data'],
+            zipfile.namelist())
+
+    def test_exclude_empty_folders_if_setting_is_deactivated(self):
+        registry = getUtility(IRegistry)
+        registry.forInterface(IZipExportSettings).include_empty_folders = False
+
+        transaction.commit()
+
+        self.browser.open("%s/zip_export" % self.superfolder.absolute_url())
+        zipfile = ZipFile(StringIO(self.browser.contents), 'r')
+        self.assertEquals(
+            ['SUPERFILE', 'Folder/testdata.txt', 'Folder/moretest.data'],
             zipfile.namelist())

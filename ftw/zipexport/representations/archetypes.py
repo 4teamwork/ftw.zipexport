@@ -27,6 +27,10 @@ class FolderZipRepresentation(NullZipRepresentation):
             path_prefix = u'{0}/{1}'.format(safe_unicode(path_prefix),
                                             safe_unicode(self.context.Title()))
 
+        if not content:
+            # Creates an empty folder
+            yield (path_prefix, None)
+
         for obj in content:
             adapt = getMultiAdapter((obj, self.request),
                                     interface=IZipRepresentation)
