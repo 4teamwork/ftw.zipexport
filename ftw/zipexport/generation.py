@@ -5,6 +5,7 @@ from Products.CMFPlone.utils import safe_unicode
 from tempfile import NamedTemporaryFile
 import os
 import sys
+import zipfile
 
 
 class NotEnoughSpaceOnDiskException(IOError):
@@ -32,6 +33,17 @@ class ZipGenerator(object):
     def __exit__(self, exc_type, exc_value, traceback):
         self.zip_file.__exit__(exc_type, exc_value, traceback)
         self.tmp_file.__exit__(exc_type, exc_value, traceback)
+
+    def add_folder(self, folder_path):
+        folder_path = safe_unicode(folder_path)
+
+        # Always add a slash at the end of the path
+        folder_path = u'{}/'.format(folder_path.strip('/'))
+
+        # Creates a new empty folder
+        self.zip_file.writestr(zipfile.ZipInfo(folder_path), '')
+
+        self.empty = False
 
     def add_file(self, file_path, file_pointer):
         if self.path_normalizer is not None:

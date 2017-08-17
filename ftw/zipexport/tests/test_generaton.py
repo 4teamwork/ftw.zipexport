@@ -41,6 +41,12 @@ class TestZipGeneration(TestCase):
             or (os.stat(generated_zip_pointer.name).st_size == 0)):
                 raise AssertionError()
 
+    def test_add_folder_will_create_a_new_folder(self):
+        with ZipGenerator() as zipgenerator:
+            zipgenerator.add_folder('Documents')
+
+            self.assertEqual(['Documents/'], zipgenerator.zip_file.namelist())
+
     def test_generator_raises_exception_when_not_used_as_generator(self):
         zipgenerator = ZipGenerator()
         self.assertRaises(StandardError, zipgenerator.generate)

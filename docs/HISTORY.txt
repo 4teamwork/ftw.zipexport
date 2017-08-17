@@ -5,7 +5,7 @@ Changelog
 1.5.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Include empty folders by default and add possibility to deactivate this behavior. [elioschmutz]
 
 
 1.5.0 (2016-12-15)

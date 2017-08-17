@@ -9,6 +9,11 @@ class IZipExportSettings(Interface):
         default=[u"Products.CMFCore.interfaces._content.IContentish"],
         value_type=schema.TextLine())
 
+    include_empty_folders = schema.Bool(
+        title=u"Include empty folders in zipexport.",
+        description=u"Defines if empty folders should be included in the export or not",
+        default=True)
+
 
 class IZipRepresentation(Interface):
     """ Represents list of files to zip. """
