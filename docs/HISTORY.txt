@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.5.1 (unreleased)
+1.6.0 (2017-08-17)
 ------------------
 
 - Include empty folders by default and add possibility to deactivate this behavior. [elioschmutz]
