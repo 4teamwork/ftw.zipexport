@@ -5,7 +5,7 @@ Changelog
 1.6.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix encoding bug when zip filename contains umlauts. [phgross]
 
 
 1.6.0 (2017-08-17)

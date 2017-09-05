@@ -51,7 +51,8 @@ setup(name='ftw.zipexport',
         'Products.CMFCore',
         'setuptools',
         'ftw.upgrade',
-        'path.py'
+        'path.py',
+        'rfc6266',
         # -*- Extra requirements: -*-
         ],
       tests_require=tests_require,
