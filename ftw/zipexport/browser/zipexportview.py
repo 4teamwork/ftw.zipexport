@@ -5,9 +5,9 @@ from ftw.zipexport.generation import ZipGenerator
 from ftw.zipexport.interfaces import IZipExportSettings
 from ftw.zipexport.interfaces import IZipRepresentation
 from plone.registry.interfaces import IRegistry
-from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
+from rfc6266 import build_header
 from zExceptions import NotFound
 from zipfile import LargeZipFile
 from zope.component import getMultiAdapter
@@ -90,15 +90,13 @@ class ZipSelectedExportView(BrowserView):
             notify(ContainerZippedEvent(self.context))
 
             # Generate response file
-            filename = '%s.zip' % self.context.title
+            filename = u'%s.zip' % self.context.title
             response.setHeader(
                 "Content-Disposition",
-                'inline; filename="{0}"'.format(
-                    safe_unicode(filename).encode('utf-8')))
+                build_header(filename, disposition='attachment'))
             response.setHeader("Content-type", "application/zip")
-            response.setHeader(
-                "Content-Length",
-                os.stat(zip_file.name).st_size)
+            response.setHeader("Content-Length",
+                               os.stat(zip_file.name).st_size)
 
             return filestream_iterator(zip_file.name, 'rb')
 

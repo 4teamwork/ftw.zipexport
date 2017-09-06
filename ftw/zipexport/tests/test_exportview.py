@@ -59,6 +59,12 @@ class TestExportView(TestCase):
         zipfile = ZipFile(StringIO(self.browser.contents), 'r')
         self.assertEquals(["testdata.txt"], zipfile.namelist())
 
+    def test_content_disposition_for_non_ascii_characters(self):
+        self.browser.open("%s/zip_export" % self.emptyfolder.absolute_url())
+        self.assertEquals(
+            "attachment; filename*=utf-8''Empty%20f%C3%B6lder.zip",
+        self.browser.headers.get('Content-Disposition'))
+
     def test_zip_multiple_files_in_folder(self):
         self.browser.open("%s/zip_export" % self.folder.absolute_url())
         zipfile = ZipFile(StringIO(self.browser.contents), 'r')
