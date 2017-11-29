@@ -46,13 +46,6 @@ class ZipSelectedExportView(BrowserView):
     def zip_selected(self, objects):
         response = self.request.response
 
-        # check if zipexport is allowed on this context
-        enabled_view = getMultiAdapter((self.context, self.request),
-                                       name=u'zipexport-enabled')
-
-        if not enabled_view.zipexport_enabled():
-            raise NotFound()
-
         with ZipGenerator() as generator:
 
             for obj in objects:
@@ -97,6 +90,13 @@ class ZipSelectedExportView(BrowserView):
 class ZipExportView(ZipSelectedExportView):
 
     def __call__(self):
+        # check if zipexport is allowed on this context
+        enabled_view = getMultiAdapter((self.context, self.request),
+                                       name=u'zipexport-enabled')
+
+        if not enabled_view.zipexport_enabled():
+            raise NotFound()
+
         try:
             return self.zip_selected([self.context])
         except NoExportableContent:
