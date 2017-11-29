@@ -5,8 +5,7 @@ Changelog
 1.6.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Remove wrong allowed check on context for zip selected view. [phgross]
 
 1.6.1 (2017-09-06)
 ------------------

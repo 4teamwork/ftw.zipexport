@@ -54,6 +54,10 @@ class TestExportView(TestCase):
         export_view = self.file.restrictedTraverse("zip_export")
         self.assertRaises(NotFound, export_view)
 
+        # selected view does not check if the zip export is enabled on
+        # current context
+        zip_selected_view = self.file.restrictedTraverse("zip_selected")
+        zip_selected_view()
 
     def test_export_with_multiple_configured_interfaces(self):
         registry = getUtility(IRegistry)
