@@ -64,7 +64,9 @@ class TestExportView(TestCase):
         reg_proxy = registry.forInterface(IZipExportSettings)
         reg_proxy.enabled_dotted_names = [
             u"OFS.interfaces.IFolder",
-            u"Products.ATContentTypes.interfaces.file.IATFile"]
+            u"Products.ATContentTypes.interfaces.file.IATFile",
+            u"plone.app.contenttypes.interfaces.IFile",
+        ]
 
         export = self.file.restrictedTraverse("@@zipexport-enabled")
 
@@ -75,7 +77,9 @@ class TestExportView(TestCase):
         reg_proxy = registry.forInterface(IZipExportSettings)
         reg_proxy.enabled_dotted_names = [
             u"some.non.existent.interface",
-            u"Products.ATContentTypes.interfaces.file.IATFile"]
+            u"Products.ATContentTypes.interfaces.file.IATFile",
+            u"plone.app.contenttypes.interfaces.IFile",
+        ]
 
         export = self.file.restrictedTraverse("@@zipexport-enabled")
 
