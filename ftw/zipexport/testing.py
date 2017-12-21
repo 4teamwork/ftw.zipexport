@@ -11,17 +11,12 @@ class FtwZipexportLayer(PloneSandboxLayer):
     defaultBases = (PLONE_FIXTURE, BUILDER_LAYER)
 
     def setUpZope(self, app, configurationContext):
-        import ftw.zipexport
-        xmlconfig.file('configure.zcml',
-                        ftw.zipexport,
-                        context=configurationContext)
-
-        import plone.dexterity
-        xmlconfig.file('configure.zcml', plone.dexterity,
-            context=configurationContext)
-
-        import plone.namedfile
-        xmlconfig.file('configure.zcml', plone.namedfile,
+        xmlconfig.string(
+            '<configure xmlns="http://namespaces.zope.org/zope">'
+            '  <include package="z3c.autoinclude" file="meta.zcml" />'
+            '  <includePlugins package="plone" />'
+            '  <includePluginsOverrides package="plone" />'
+            '</configure>',
             context=configurationContext)
 
     def setUpPloneSite(self, portal):
