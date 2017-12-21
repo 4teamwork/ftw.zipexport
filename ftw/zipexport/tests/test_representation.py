@@ -18,22 +18,22 @@ class TestArchetypeZipRepresentation(TestCase):
         self.request = portal.REQUEST
 
         self.folder = create(Builder("folder")
-                            .titled("Folder\xe3\x82\xb9".decode("utf-8")))
+                            .titled(u"Folder\xe3\x82\xb9"))
 
         self.folderfile = create(Builder("file")
-                            .titled("File")
+                            .titled(u"File")
                             .attach_file_containing("Testdata file in folder",
-                                                     u"test.txt")
+                                                    u"test.txt")
                             .within(self.folder))
 
         subfolder = create(Builder("folder")
-                            .titled("SubF\xc3\xb6lder".decode("utf-8"))
+                            .titled(u"SubF\xc3\xb6lder")
                             .within(self.folder))
 
         self.subfolderfile = create(Builder("file")
-                                    .titled("SubF\xc3\xb6lderFile".decode("utf-8"))
+                                    .titled(u"SubF\xc3\xb6lderFile")
                                     .attach_file_containing("Testdata file in subfolder",
-                                                             "s\xc3\xb6btest.txt".decode("utf-8"))
+                                                            u"s\xc3\xb6btest.txt")
                                     .within(subfolder))
 
     def test_folder_representation_non_recursive_is_empty(self):
@@ -47,7 +47,7 @@ class TestArchetypeZipRepresentation(TestCase):
         files = list(ziprepresentation.get_files(recursive=True))
         files_converted = [(path, stream.read()) for path, stream in files]
         self.assertEquals([(u"/test.txt", "Testdata file in folder"),
-                            ("/SubF\xc3\xb6lder/s\xc3\xb6btest.txt".decode('utf-8'), "Testdata file in subfolder")],
+                            (u"/SubF\xc3\xb6lder/s\xc3\xb6btest.txt", "Testdata file in subfolder")],
                             files_converted)
 
     def test_file_represents_itself(self):

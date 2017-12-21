@@ -38,21 +38,21 @@ class TestArchetypeEvents(TestCase):
 
         self.superfolder = create(
             Builder("folder")
-            .titled("Superfolder")
+            .titled(u"Superfolder")
             )
 
         self.folder = create(
             Builder("folder")
-            .titled("Folder")
+            .titled(u"Folder")
             .within(self.superfolder)
             )
 
         self.folderfile = create(
             Builder("file")
-            .titled("File")
+            .titled(u"File")
             .attach_file_containing(
                 "Testdata for the sake of test the data (and not my grammar).",
-                "testdata.txt")
+                u"testdata.txt")
             .within(self.folder)
             )
 

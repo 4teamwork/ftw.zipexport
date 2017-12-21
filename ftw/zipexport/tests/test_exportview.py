@@ -22,30 +22,30 @@ class TestExportView(TestCase):
         self.browser = Browser(self.layer['app'])
 
         self.superfolder = create(Builder("folder")
-                            .titled("Superfolder"))
+                            .titled(u"Superfolder"))
 
         self.superfile = create(Builder("file")
-                            .titled("File")
+                            .titled(u"File")
                             .attach_file_containing("SUPER TESTDATA!!!!",
-                                                     "SUPERFILE")
+                                                    u"SUPERFILE")
                             .within(self.superfolder))
 
         self.folder = create(Builder("folder")
-                            .titled("Folder")
+                            .titled(u"Folder")
                             .within(self.superfolder))
 
         self.folderfile = create(Builder("file")
-                            .titled("File")
+                            .titled(u"File")
                             .attach_file_containing(
                                 "Testdata for the sake of test the data (and not my grammar).",
-                                "testdata.txt")
+                                u"testdata.txt")
                             .within(self.folder))
 
         self.folderfile2 = create(Builder("file")
-                            .titled("File")
+                            .titled(u"File")
                             .attach_file_containing(
                                 "Some other testdata with testdata in it.",
-                                "moretest.data")
+                                u"moretest.data")
                             .within(self.folder))
 
         self.emptyfolder = create(Builder("folder")

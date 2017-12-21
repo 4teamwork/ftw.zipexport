@@ -21,10 +21,10 @@ class TestExportView(TestCase):
         self.browser = Browser(self.layer['app'])
 
         self.file = create(Builder("file")
-                           .titled("File")
+                           .titled(u"File")
                            .attach_file_containing(
                                "Testdata.",
-                               "testdata.txt"))
+                               u"testdata.txt"))
 
     def test_export_is_enabled_by_default(self):
         enabled_view = self.file.restrictedTraverse("@@zipexport-enabled")

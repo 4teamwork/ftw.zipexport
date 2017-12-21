@@ -22,9 +22,9 @@ class TestZipGeneration(TestCase):
 
     def test_zip_is_not_empty(self):
         file = create(Builder("file")
-                        .titled("File")
+                        .titled(u"File")
                         .attach_file_containing("Testdata file in subfolder",
-                                                 u"subtest.txt"))
+                                                u"subtest.txt"))
 
         ziprepresentation = getMultiAdapter((file, self.request),
                                             interface=IZipRepresentation)
@@ -53,9 +53,9 @@ class TestZipGeneration(TestCase):
 
     def test_generator_raises_exception_when_files_added_after_generate(self):
         file = create(Builder("file")
-                        .titled("File")
+                        .titled(u"File")
                         .attach_file_containing("Testdata file in subfolder",
-                                                 u"subtest.txt"))
+                                                u"subtest.txt"))
         ziprepresentation = getMultiAdapter((file, self.request),
                                             interface=IZipRepresentation)
 
@@ -69,7 +69,7 @@ class TestZipGeneration(TestCase):
             self.assertRaises(StandardError, zipgenerator.add_file, file_rep)
 
     def test_generator_creates_unique_file_names(self):
-        folder = create(Builder('folder').titled("folder"))
+        folder = create(Builder('folder').titled(u"folder"))
         create(Builder("file")
                         .within(folder)
                         .attach_file_containing("File1", u"file.txt"))
