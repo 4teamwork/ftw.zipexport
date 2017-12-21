@@ -1,3 +1,4 @@
+from ftw.builder.content import register_dx_content_builders
 from ftw.builder.testing import BUILDER_LAYER
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
@@ -5,6 +6,10 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PLONE_FIXTURE
 from zope.configuration import xmlconfig
+import pkg_resources
+
+
+IS_PLONE_5 = pkg_resources.get_distribution('Products.CMFPlone').version >= '5'
 
 
 class FtwZipexportLayer(PloneSandboxLayer):
@@ -21,6 +26,10 @@ class FtwZipexportLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ftw.zipexport:default')
+
+        if IS_PLONE_5:
+            applyProfile(portal, 'plone.app.contenttypes:default')
+            register_dx_content_builders(force=True)
 
 
 FTW_ZIPEXPORT_FIXTURE = FtwZipexportLayer()

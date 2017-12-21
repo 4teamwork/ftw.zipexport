@@ -7,6 +7,7 @@ maintainer = 'Lukas Knoepfel'
 
 tests_require = [
     'ftw.builder',
+    'plone.app.contenttypes',
     'plone.app.testing',
     'plone.directives.form',
     'plone.app.dexterity',
@@ -31,6 +32,7 @@ setup(name='ftw.zipexport',
         "Framework :: Plone",
         "Framework :: Zope2",
         "Framework :: Plone :: 4.3",
+        "Framework :: Plone :: 5.1",
         "Programming Language :: Python",
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
@@ -53,6 +55,7 @@ setup(name='ftw.zipexport',
         'ftw.upgrade',
         'path.py',
         'rfc6266',
+        'zope.app.file < 4.0.0',
         # -*- Extra requirements: -*-
         ],
       tests_require=tests_require,
