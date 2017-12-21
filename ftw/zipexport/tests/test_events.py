@@ -9,6 +9,7 @@ from ftw.zipexport.interfaces import IItemZippedEvent
 from ftw.zipexport.interfaces import IZipRepresentation
 from ftw.zipexport.testing import FTW_ZIPEXPORT_FUNCTIONAL_TESTING
 from ftw.zipexport.testing import FTW_ZIPEXPORT_INTEGRATION_TESTING
+from ftw.zipexport.testing import IS_PLONE_5
 from ftw.zipexport.tests import dottedname
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -38,21 +39,21 @@ class TestArchetypeEvents(TestCase):
 
         self.superfolder = create(
             Builder("folder")
-            .titled("Superfolder")
+            .titled(u"Superfolder")
             )
 
         self.folder = create(
             Builder("folder")
-            .titled("Folder")
+            .titled(u"Folder")
             .within(self.superfolder)
             )
 
         self.folderfile = create(
             Builder("file")
-            .titled("File")
+            .titled(u"File")
             .attach_file_containing(
                 "Testdata for the sake of test the data (and not my grammar).",
-                "testdata.txt")
+                u"testdata.txt")
             .within(self.folder)
             )
 
@@ -82,7 +83,10 @@ class TestArchetypeEvents(TestCase):
         self.assertIsInstance(self.mock_event.event_history[0],
                               ItemZippedEvent)
 
-        self.assertEquals('file', self.mock_event.event_history[0].object.id)
+        if IS_PLONE_5:
+            self.assertEquals('testdata.txt', self.mock_event.event_history[0].object.id)
+        else:
+            self.assertEquals('file', self.mock_event.event_history[0].object.id)
 
     # This also tests the code path for dexterity containers as this action
     # is always fired from a container and that is what gets caught
@@ -102,7 +106,10 @@ class TestArchetypeEvents(TestCase):
         self.assertIsInstance(self.mock_event.event_history[0],
                               ItemZippedEvent)
 
-        self.assertEquals('file', self.mock_event.event_history[0].object.id)
+        if IS_PLONE_5:
+            self.assertEquals('testdata.txt', self.mock_event.event_history[0].object.id)
+        else:
+            self.assertEquals('file', self.mock_event.event_history[0].object.id)
 
         self.assertIsInstance(self.mock_event.event_history[1],
                               ContainerZippedEvent)

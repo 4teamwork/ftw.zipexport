@@ -2,7 +2,7 @@ from ftw.zipexport.events import ItemZippedEvent
 from ftw.zipexport.interfaces import IZipRepresentation
 from ftw.zipexport.representations.general import NullZipRepresentation
 from plone.dexterity.interfaces import IDexterityItem
-from plone.namedfile.interfaces import INamedFileField
+from plone.namedfile.interfaces import INamedField
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from Products.CMFPlone.utils import safe_unicode
 from StringIO import StringIO
@@ -14,7 +14,7 @@ from zope.interface import Interface
 
 from plone.namedfile.interfaces import HAVE_BLOBS
 if HAVE_BLOBS:
-    from plone.namedfile.interfaces import INamedBlobFile
+    from plone.namedfile.interfaces import IBlobby
 
 
 class DexterityItemZipRepresentation(NullZipRepresentation):
@@ -30,7 +30,7 @@ class DexterityItemZipRepresentation(NullZipRepresentation):
             # Adapter throws TypeError
             return
 
-        if INamedFileField.providedBy(primary_adapter.field):
+        if INamedField.providedBy(primary_adapter.field):
             named_file = primary_adapter.value
             if primary_adapter.value:
                 notify(ItemZippedEvent(self.context))
@@ -39,7 +39,7 @@ class DexterityItemZipRepresentation(NullZipRepresentation):
     def get_file_tuple(self, named_file, path_prefix):
         path = u'{0}/{1}'.format(safe_unicode(path_prefix),
                                  safe_unicode(named_file.filename))
-        if HAVE_BLOBS and INamedBlobFile.providedBy(named_file):
+        if HAVE_BLOBS and IBlobby.providedBy(named_file):
             return (path, named_file.open())
         else:
             stream_data = StringIO(named_file.data)

@@ -17,12 +17,12 @@ class TestExport(TestCase):
     def test_export_files_with_umlauts_in_title(self):
         folder = create(Builder('folder'))
         subfolder = create(Builder('folder')
-                           .titled('f\xc3\xb6lder')
+                           .titled(u'f\xc3\xb6lder')
                            .within(folder))
 
         create(Builder('file')
-               .titled('hall\xc3\xb6chen')
-               .attach_file_containing('Testdata', 'hall\xc3\xb6chen.pdf')
+               .titled(u'hall\xc3\xb6chen')
+               .attach_file_containing('Testdata', u'hall\xc3\xb6chen.pdf')
                .within(subfolder))
 
         view = folder.restrictedTraverse('zip_export')

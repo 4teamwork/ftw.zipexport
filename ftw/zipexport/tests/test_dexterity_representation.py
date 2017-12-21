@@ -102,15 +102,15 @@ class TestDexterityZipRepresentation(TestCase):
         self.assertEquals([], files_converted)
 
     def test_dexterity_unicode_container_name(self):
-        folder = create(Builder('folder').titled('folder'))
-        subfolder = create(Builder('folder').within(folder).titled('f\xc3\xb6lder'.decode('utf-8')))
+        folder = create(Builder('folder').titled(u'folder'))
+        subfolder = create(Builder('folder').within(folder).titled(u'f\xc3\xb6lder'))
         create(Builder("note")
                    .within(subfolder)
                    .having(blob=NamedBlobFile(data='NoteNoteNote',
-                                              filename='n\xc3\xb6te'.decode('utf-8'))))
+                                              filename=u'n\xc3\xb6te')))
 
         ziprepresentation = getMultiAdapter((folder, self.request),
                                             interface=IZipRepresentation)
         files = list(ziprepresentation.get_files())
         files_converted = [(path, stream.read()) for path, stream in files]
-        self.assertEquals([('/f\xc3\xb6lder/n\xc3\xb6te'.decode('utf-8'), 'NoteNoteNote')], files_converted)
+        self.assertEquals([(u'/f\xc3\xb6lder/n\xc3\xb6te', 'NoteNoteNote')], files_converted)

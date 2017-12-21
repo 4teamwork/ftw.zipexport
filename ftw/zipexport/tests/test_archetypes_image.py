@@ -19,7 +19,7 @@ class TestArchetypesImageRepresentation(TestCase):
 
     def test_images_have_file_representation(self):
         image = create(Builder('image')
-                       .attach_file_containing('The Image', 'img.png'))
+                       .attach_file_containing('The Image', u'img.png'))
         repr = getMultiAdapter((image, self.layer['request']),
                                interface=IZipRepresentation)
 

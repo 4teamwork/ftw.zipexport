@@ -21,10 +21,10 @@ class TestExportView(TestCase):
         self.browser = Browser(self.layer['app'])
 
         self.file = create(Builder("file")
-                           .titled("File")
+                           .titled(u"File")
                            .attach_file_containing(
                                "Testdata.",
-                               "testdata.txt"))
+                               u"testdata.txt"))
 
     def test_export_is_enabled_by_default(self):
         enabled_view = self.file.restrictedTraverse("@@zipexport-enabled")
@@ -64,7 +64,9 @@ class TestExportView(TestCase):
         reg_proxy = registry.forInterface(IZipExportSettings)
         reg_proxy.enabled_dotted_names = [
             u"OFS.interfaces.IFolder",
-            u"Products.ATContentTypes.interfaces.file.IATFile"]
+            u"Products.ATContentTypes.interfaces.file.IATFile",
+            u"plone.app.contenttypes.interfaces.IFile",
+        ]
 
         export = self.file.restrictedTraverse("@@zipexport-enabled")
 
@@ -75,7 +77,9 @@ class TestExportView(TestCase):
         reg_proxy = registry.forInterface(IZipExportSettings)
         reg_proxy.enabled_dotted_names = [
             u"some.non.existent.interface",
-            u"Products.ATContentTypes.interfaces.file.IATFile"]
+            u"Products.ATContentTypes.interfaces.file.IATFile",
+            u"plone.app.contenttypes.interfaces.IFile",
+        ]
 
         export = self.file.restrictedTraverse("@@zipexport-enabled")
 
