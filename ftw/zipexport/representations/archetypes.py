@@ -24,8 +24,11 @@ class FolderZipRepresentation(NullZipRepresentation):
         brains = self.context.getFolderContents()
         content = [brain.getObject() for brain in brains]
         if not toplevel:
-            path_prefix = u'{0}/{1}'.format(safe_unicode(path_prefix),
-                                            safe_unicode(self.context.Title()))
+            if getattr(self.context, 'zipexport_title', None):
+                title = safe_unicode(self.context.zipexport_title)
+            else:
+                title = safe_unicode(self.context.Title())
+            path_prefix = u'{0}/{1}'.format(safe_unicode(path_prefix), title)
 
         if not content:
             # Creates an empty folder
