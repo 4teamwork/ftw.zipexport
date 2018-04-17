@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.6.3 (unreleased)
+1.6.3 (2018-04-17)
 ------------------
 
 - Allow IFolderish to specify a custom title via a property. [Rotonen]
