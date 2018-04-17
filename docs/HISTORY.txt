@@ -5,6 +5,7 @@ Changelog
 1.6.3 (unreleased)
 ------------------
 
+- Allow IFolderish to specify a custom title via a property. [Rotonen]
 - Drop support for Plone 4.2. [mbaechtold]
 
 

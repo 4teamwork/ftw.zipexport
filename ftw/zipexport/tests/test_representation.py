@@ -36,6 +36,10 @@ class TestArchetypeZipRepresentation(TestCase):
                                                             u"s\xc3\xb6btest.txt")
                                     .within(subfolder))
 
+        self.prefixfolder = create(Builder('folder').titled(u'Folder\xe3\x82\xb9'))
+        self.prefixsubfolder = create(Builder('folder').titled(u'Folder\xe3\x82\xb9').within(self.prefixfolder))
+        self.prefixsubfolder.zipexport_title = u'Prefix Folder\xe3\x82\xb9'
+
     def test_folder_representation_non_recursive_is_empty(self):
         self.assertEquals([], list(getMultiAdapter((self.folder, self.request),
                                              interface=IZipRepresentation)
@@ -57,3 +61,9 @@ class TestArchetypeZipRepresentation(TestCase):
         files_converted = [(path, stream.read()) for path, stream in files]
         self.assertEquals([(u"/test.txt", "Testdata file in folder")],
                             files_converted)
+
+    def test_folder_prefixes(self):
+        ziprepresentation = getMultiAdapter((self.prefixfolder, self.request), interface=IZipRepresentation)
+        paths = [path_file[0] for path_file in ziprepresentation.get_files()]
+        expected_paths = [u'/Prefix Folder\xe3\x82\xb9']
+        self.assertEqual(paths, expected_paths)
