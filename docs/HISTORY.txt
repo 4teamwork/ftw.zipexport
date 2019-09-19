@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.6.4 (unreleased)
+1.6.4 (2019-09-19)
 ------------------
 
 - Fix doubled subfolders when a folder with umlaut in the title contains empty subfolders. [phgross]
