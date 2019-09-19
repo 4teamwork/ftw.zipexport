@@ -93,11 +93,12 @@ class TestZipGeneration(TestCase):
                 [u'file.txt', u'file (2).txt', u'file (3).txt'],
                 in_zip_file_list)
 
-    def test_filenames_are_normalized(self):
+    def test_filename_and_folders_are_normalized(self):
         with ZipGenerator() as zipgenerator:
-            zipgenerator.add_file('F\xc3\xbc\xc3\xb6 B\xc3\xa4r.tar.gz', StringIO())
+            zipgenerator.add_folder('t\xc3\xb6mp')
+            zipgenerator.add_file('t\xc3\xb6mp/F\xc3\xbc\xc3\xb6 B\xc3\xa4r.tar.gz', StringIO())
             self.assertItemsEqual(
-                [u'Fuo Bar.tar.gz'],
+                [u'tomp/', 'tomp/Fuo Bar.tar.gz'],
                 zipgenerator.zip_file.namelist())
 
     def test_normalization_can_be_disabled(self):

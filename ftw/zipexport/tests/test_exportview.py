@@ -76,7 +76,7 @@ class TestExportView(TestCase):
         self.browser.open("%s/zip_export" % self.superfolder.absolute_url())
         zipfile = ZipFile(StringIO(self.browser.contents), 'r')
         self.assertEquals(
-            ['SUPERFILE', 'Folder/testdata.txt', 'Folder/moretest.data', u'Empty f\xf6lder/'],
+            ['SUPERFILE', 'Folder/testdata.txt', 'Folder/moretest.data', u'Empty folder/'],
             zipfile.namelist())
 
     def test_zip_selected_files(self):

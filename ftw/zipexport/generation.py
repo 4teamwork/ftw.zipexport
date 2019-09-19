@@ -35,6 +35,9 @@ class ZipGenerator(object):
         self.tmp_file.__exit__(exc_type, exc_value, traceback)
 
     def add_folder(self, folder_path):
+        if self.path_normalizer is not None:
+            folder_path = self.path_normalizer(folder_path)
+
         folder_path = safe_unicode(folder_path)
 
         # Always add a slash at the end of the path
