@@ -5,6 +5,8 @@ from ftw.zipexport.generation import ZipGenerator
 from ftw.zipexport.interfaces import IZipExportSettings
 from ftw.zipexport.interfaces import IZipRepresentation
 from plone.registry.interfaces import IRegistry
+from Products.CMFCore.interfaces._content import IFolderish
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from rfc6266 import build_header
@@ -56,7 +58,11 @@ class ZipSelectedExportView(BrowserView):
                 repre = getMultiAdapter((obj, self.request),
                                         interface=IZipRepresentation)
 
-                for path, pointer in repre.get_files():
+                path_prefix = ''
+                if IFolderish.providedBy(obj) and obj is not self.context:
+                    path_prefix = safe_unicode(obj.Title())
+
+                for path, pointer in repre.get_files(path_prefix=path_prefix):
                     if not pointer:
                         if settings.include_empty_folders:
                             generator.add_folder(path)
