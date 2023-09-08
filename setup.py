@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = '1.6.5'
+version = '1.6.6.dev0'
 
 maintainer = 'Lukas Knoepfel'
 
