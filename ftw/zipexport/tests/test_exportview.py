@@ -89,6 +89,15 @@ class TestExportView(TestCase):
             ['testdata.txt', 'moretest.data'],
             zipfile.namelist())
 
+    def test_zip_selected_folder_with_files(self):
+        postdata = "zip_selected:method=1&paths:list=%s&" % (
+            '/'.join(self.folder.getPhysicalPath()))
+        self.browser.open(self.superfolder.absolute_url(), postdata)
+        zipfile = ZipFile(StringIO(self.browser.contents), 'r')
+        self.assertEquals(
+            ['Folder/testdata.txt', 'Folder/moretest.data'],
+            zipfile.namelist())
+
     def test_exclude_empty_folders_if_setting_is_deactivated(self):
         registry = getUtility(IRegistry)
         registry.forInterface(IZipExportSettings).include_empty_folders = False
